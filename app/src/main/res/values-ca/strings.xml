@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Eventology</string>
+    <string name="login_text">Inicia sessió</string>
+    <string name="password">Contrasenya</string>
+    <string name="user">Usuari</string>
+    <string name="catalan">Català</string>
+    <string name="spanish">Castellà</string>
+    <string name="english">Anglès</string>
+    <string name="register">Regisra\'t</string>
+    <string name="language_selector">Selector d\'Idioma</string>
+</resources>
