@@ -1,13 +1,13 @@
 package com.example.eventology.activities
 
-import android.os.Bundle
-import android.view.MenuItem
-import android.view.View
-import android.widget.PopupMenu
-import androidx.appcompat.app.AppCompatActivity
-import com.example.eventology.R
-import com.example.eventology.databinding.ActivityLoginBinding
 import java.util.*
+import android.os.Bundle
+import android.view.View
+import android.view.MenuItem
+import android.widget.PopupMenu
+import com.example.eventology.R
+import androidx.appcompat.app.AppCompatActivity
+import com.example.eventology.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
