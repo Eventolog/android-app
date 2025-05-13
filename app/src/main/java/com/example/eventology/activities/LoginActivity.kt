@@ -1,5 +1,7 @@
 package com.example.eventology.activities
 
+import android.content.Context
+import android.content.Intent
 import java.util.*
 import android.os.Bundle
 import android.view.View
@@ -7,7 +9,11 @@ import android.view.MenuItem
 import android.widget.PopupMenu
 import com.example.eventology.R
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import com.example.eventology.data.services.ApiServiceProvider
+import com.example.eventology.data.services.DataServiceInterface
 import com.example.eventology.databinding.ActivityLoginBinding
+import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -20,6 +26,32 @@ class LoginActivity : AppCompatActivity() {
 
         binding.languageSelector.setOnClickListener { view ->
             showLanguagePopup(view)
+        }
+
+        binding.loginButton.setOnClickListener {
+            handleLoginClick()
+        }
+
+        binding.registerText.setOnClickListener {
+            var intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    private fun handleLoginClick(){
+        println("start login")
+        var context: Context = this.baseContext
+
+        lifecycleScope.launch {
+            println("lifecycle scope launch kotlin")
+            var apiService: DataServiceInterface = ApiServiceProvider.getDataService()
+            var email = binding.emailEditText.text?.toString() ?: ""
+            var password = binding.passwordEditText.text?.toString() ?: ""
+
+            var errMsg = apiService.login(email, password, context)
+            println("error msg: $errMsg")
+            binding.errorMessageTextView.text = errMsg
+            binding.errorMessageTextView.setPadding(48, 24, 48, 24)
         }
     }
 

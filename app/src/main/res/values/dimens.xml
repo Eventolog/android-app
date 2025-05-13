@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="text_size_sm">16sp</dimen>
+    <dimen name="text_size_md">20sp</dimen>
+    <dimen name="text_size_lg">24sp</dimen>
+    <dimen name="text_button">20sp</dimen>
+    <dimen name="text_input">20sp</dimen>
+    <dimen name="text_size_title">32sp</dimen>
+</resources>

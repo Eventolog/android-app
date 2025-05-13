@@ -1,5 +1,6 @@
 package com.example.eventology.data.services
 
+import android.content.Context
 import com.example.eventology.data.models.Event
 
 /**
@@ -13,9 +14,10 @@ interface DataServiceInterface {
      *
      * @param email The user's email address.
      * @param password The user's password.
+     * @param context The application context, used to access resources.
      * @return A nullable error message string if the login fails, or `null` if successful.
      */
-    suspend fun login(email: String, password: String): String?
+    suspend fun login(email: String, password: String, context: Context): String?
 
     /**
      * Attempts to sign up a new user with the provided name, email, and password.
@@ -23,9 +25,11 @@ interface DataServiceInterface {
      * @param name The user's full name.
      * @param email The user's email address.
      * @param password The user's desired password.
+     * @param context The application context, used to access resources.
+     *
      * @return A nullable error message string if signup fails, or `null` if successful.
      */
-    suspend fun signup(name: String, email: String, password: String): String?
+    suspend fun signup(name: String, email: String, password: String, context: Context): String?
 
     /**
      * Retrieves a list of all available events.

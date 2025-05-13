@@ -4,9 +4,14 @@
     <string name="login_text">Inicia sessió</string>
     <string name="password">Contrasenya</string>
     <string name="user">Usuari</string>
+    <string name="email">Correu electrònic</string>
+    <string name="name">Nom</string>
     <string name="catalan">Català</string>
     <string name="spanish">Castellà</string>
     <string name="english">Anglès</string>
     <string name="register">Regisra\'t</string>
     <string name="language_selector">Selector d\'Idioma</string>
+    <string name="error_invalid_credentials">Les credencials que has introduït són incorrectes. Si us plau, torna-ho a intentar</string>
+    <string name="error_invalid_email_format">Format de correu electrònic invàlid</string>
+    <string name="error_password_length">La contrasenya ha de tenir més de 5 caràcters</string>
 </resources>

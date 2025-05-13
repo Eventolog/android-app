@@ -4,9 +4,14 @@
     <string name="login_text">Inicia Sesión</string>
     <string name="password">Contraseña</string>
     <string name="user">Usuario</string>
+    <string name="email">Correo electrónico</string>
+    <string name="name">Nombre</string>
     <string name="catalan">Catalán</string>
     <string name="spanish">Castellano</string>
     <string name="english">Inglés</string>
     <string name="register">Registrate</string>
     <string name="language_selector">Selector de Idioma</string>
+    <string name="error_invalid_credentials">Las credenciales que ingresaste son incorrectas. Por favor, inténtalo de nuevo</string>
+    <string name="error_invalid_email_format">Formato de correo electrónico no válido</string>
+    <string name="error_password_length">La contraseña debe tener más de 5 caracteres</string>
 </resources>

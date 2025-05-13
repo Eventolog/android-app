@@ -1,8 +1,10 @@
 package com.example.eventology.data.services
 
+import android.content.Context
 import com.example.eventology.constants.UserTypes
 import com.example.eventology.data.models.Event
 import com.example.eventology.data.models.User
+import com.example.eventology.R
 
 object MockDataService : DataServiceInterface {
     var user: User? = null;
@@ -21,7 +23,7 @@ object MockDataService : DataServiceInterface {
         return matchNormalUserCredentials;
     }
 
-    override suspend fun login(email: String, password: String): String? {
+    override suspend fun login(email: String, password: String, context: Context): String? {
         var errorMsg: String? = null;
         var matchNormalUser = matchNormalUserCredentials(email, password)
         var matchOrganizerUser = matchOrganizerUserCredentials(email, password)
@@ -41,24 +43,24 @@ object MockDataService : DataServiceInterface {
             );
         }
         else{
-            errorMsg = "Les credencials son incorrectes"
+            errorMsg = context.getString(R.string.error_invalid_credentials)
         }
 
         return errorMsg
     }
 
-    override suspend fun signup(name: String, email: String, password: String): String? {
+    override suspend fun signup(name: String, email: String, password: String, context: Context): String? {
         var errorMsg: String? = null;
 
         // Validate email format using a simple regex
         val emailRegex = "^[A-Za-z0-9+_.-]+@(.+)\$".toRegex()
         if (!emailRegex.matches(email)) {
-            errorMsg = "Invalid email format"
+            errorMsg = context.getString(R.string.error_invalid_email_format)
         }
 
         // Validate password length
         if (password.length <= 5) {
-            errorMsg = "Password must be longer than 5 characters"
+            errorMsg = context.getString(R.string.error_password_length)
         }
 
         // If no validation errors, create the user
