@@ -3,20 +3,14 @@ package com.example.eventology.activities
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import com.example.eventology.databinding.ActivityMainBinding
+import com.example.eventology.constants.BaseActivity
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
-
+class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        var intent = Intent(this, LoginActivity::class.java)
+        val intent = Intent(this, AuthenticatedActivity::class.java)
         startActivity(intent)
-
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
     }
 }
