@@ -3,7 +3,7 @@ package com.example.eventology.activities
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.eventology.R
-import com.example.eventology.fragments.MainFragment
+import com.example.eventology.fragments.AuthentiactedLayoutFragment
 
 /**
  * Actividad principal que se muestra después de que el usuario se autentica.
@@ -20,7 +20,7 @@ class AuthenticatedActivity : AppCompatActivity() {
                     android.R.anim.slide_in_left,    // enter
                     android.R.anim.slide_out_right    // exit
                 )
-                .replace(R.id.main_container, MainFragment())
+                .replace(R.id.main_container, AuthentiactedLayoutFragment())
                 .commit()
         }
     }

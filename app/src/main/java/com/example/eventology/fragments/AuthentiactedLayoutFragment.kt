@@ -10,7 +10,7 @@ import com.example.eventology.R
 /**
  * Fragmento principal que contiene la navbar y gestiona la carga de fragmentos de contenido.
  */
-class MainFragment : Fragment() {
+class AuthentiactedLayoutFragment : Fragment() {
     var currentPage: PageFragments? = null;
 
     override fun onCreateView(
