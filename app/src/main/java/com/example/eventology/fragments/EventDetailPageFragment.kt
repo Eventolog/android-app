@@ -4,9 +4,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.eventology.R
+import com.example.eventology.constants.UserTypes
 import com.example.eventology.databinding.FragmentEventDetailPageBinding
 import com.example.eventology.utils.DateUtils
 import com.example.eventology.data.models.Event
+import com.example.eventology.data.services.ApiServiceProvider
 import com.example.eventology.fragments.AuthenticatedLayoutFragment
 import com.example.eventology.fragments.PageFragments
 
@@ -32,7 +34,12 @@ class EventDetailPageFragment(private val event: Event, private val authenticate
         var readeableDuration = DateUtils.getReadableDuration(event.startTime, event.endTime);
         var durationTxt = context?.getString(R.string.duration)
         binding.eventDetailTime.text = "${readeableDate} · ${durationTxt}: ${readeableDuration}"
+        var role = ApiServiceProvider.getDataService().getUser()?.type ?: UserTypes.NORMAL
+        if(role.equals(UserTypes.NORMAL)){
+            binding.actionButton.setText(R.string.buyTicket)
+        }else if (role.equals(UserTypes.ORGANIZER)){
 
+        }
         // Optionally handle other event details like image or location
         // Example: Load event image if available
         // binding.eventDetailImage.setImageResource(event.imageResId) // If the event has an image

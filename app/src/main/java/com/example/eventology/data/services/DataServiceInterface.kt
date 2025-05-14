@@ -2,6 +2,7 @@ package com.example.eventology.data.services
 
 import android.content.Context
 import com.example.eventology.data.models.Event
+import com.example.eventology.data.models.User
 
 /**
  * Interface defining the contract for a data service an implementation that connects to the api
@@ -37,4 +38,11 @@ interface DataServiceInterface {
      * @return A list of [Event] objects representing the available events.
      */
     suspend fun getAllEvents(): List<Event>
+
+    /**
+     * Returns the current authenticated user
+     *
+     * @return An instance of the authenticated [User] or null if user its not authenticated
+     */
+    fun getUser(): User?
 }

@@ -133,4 +133,8 @@ object RealDataService : DataServiceInterface {
             }
         }
     }
+
+    override fun getUser(): User {
+        TODO("Not yet implemented")
+    }
 }

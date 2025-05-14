@@ -52,4 +52,16 @@
 
     </LinearLayout>
 
+    <!-- Action Button aligned to end -->
+    <Button
+        android:id="@+id/actionButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Take Action"
+        android:textSize="@dimen/text_button"
+        android:layout_margin="16dp"
+        android:backgroundTint="@color/primary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -219,4 +219,8 @@ object MockDataService : DataServiceInterface {
             )
         )
     }
+
+    override fun getUser(): User? {
+        return this.user;
+    }
 }
