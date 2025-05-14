@@ -17,4 +17,6 @@
     <string name="events">Esdeveniments</string>
     <string name="upcoming">Proper</string>
     <string name="finished">Finalitzat</string>
+    <string name="error_network">Error de xarxa</string>
+    <string name="error_signup_failed">El registre ha fallat</string>
 </resources>
