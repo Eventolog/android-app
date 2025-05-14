@@ -13,4 +13,6 @@
     <string name="error_invalid_credentials">The credentials you entered are incorrect. Please try again</string>
     <string name="error_invalid_email_format">Invalid email format</string>
     <string name="error_password_length">Password must be longer than 5 characters</string>
+    <string name="error_network">Network Error</string>
+    <string name="error_signup_failed">Sign up failed</string>
 </resources>

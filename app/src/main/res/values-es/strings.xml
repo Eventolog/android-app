@@ -14,4 +14,6 @@
     <string name="error_invalid_credentials">Las credenciales que ingresaste son incorrectas. Por favor, inténtalo de nuevo</string>
     <string name="error_invalid_email_format">Formato de correo electrónico no válido</string>
     <string name="error_password_length">La contraseña debe tener más de 5 caracteres</string>
+    <string name="error_network">Error de red</string>
+    <string name="error_signup_failed">El registro ha fallado</string>
 </resources>
