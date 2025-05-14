@@ -36,6 +36,9 @@ class LoginActivity : AppCompatActivity() {
             var intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
+
+        var intent = Intent(this, AuthenticatedActivity::class.java)
+        startActivity(intent)
     }
 
     private fun handleLoginClick(){
