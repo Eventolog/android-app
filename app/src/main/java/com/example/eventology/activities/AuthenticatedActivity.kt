@@ -3,11 +3,11 @@ package com.example.eventology.activities
 import android.os.Bundle
 import com.example.eventology.R
 import com.example.eventology.constants.BaseActivity
-import com.example.eventology.fragments.AuthentiactedLayoutFragment
+import com.example.eventology.fragments.AuthenticatedLayoutFragment
 
 /**
  * Main activity shown after user gets authenticated.
- * Load the [AuthentiactedLayoutFragment] that manages page routing.
+ * Load the [AuthenticatedLayoutFragment] that manages page routing.
  */
 class AuthenticatedActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,7 +20,7 @@ class AuthenticatedActivity : BaseActivity() {
                     android.R.anim.slide_in_left,    // enter
                     android.R.anim.slide_out_right    // exit
                 )
-                .replace(R.id.main_container, AuthentiactedLayoutFragment())
+                .replace(R.id.main_container, AuthenticatedLayoutFragment())
                 .commit()
         }
     }

@@ -9,9 +9,9 @@ import com.example.eventology.R
 /**
  * Fragment to show the incidences list
  *
- * @property authentiactedLayoutFragment fragment used to changes page from this page
+ * @property authenticatedLayoutFragment fragment used to changes page from this page
  */
-class IncidencesPageFragment(private val authentiactedLayoutFragment: AuthentiactedLayoutFragment)  : PageFragments(3, authentiactedLayoutFragment) {
+class IncidencesPageFragment(private val authenticatedLayoutFragment: AuthenticatedLayoutFragment)  : PageFragments(3, authenticatedLayoutFragment) {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.fragment_page_incidences, container, false)
     }

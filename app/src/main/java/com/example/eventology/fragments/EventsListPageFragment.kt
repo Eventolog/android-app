@@ -5,7 +5,6 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.eventology.R
 import com.example.eventology.adapters.EventsAdapter
 import com.example.eventology.data.services.ApiServiceProvider
 import com.example.eventology.databinding.FragmentPageEventsListBinding
@@ -19,9 +18,9 @@ import kotlinx.coroutines.launch
  *
  * This fragment uses ViewBinding via [FragmentPageEventsListBinding] to interact with its layout.
  *
- * @property authentiactedLayoutFragment fragment used to changes page from this page
+ * @property authenticatedLayoutFragment fragment used to changes page from this page
  */
-class EventsListPageFragment(private val authentiactedLayoutFragment: AuthentiactedLayoutFragment) : PageFragments(1, authentiactedLayoutFragment) {
+class EventsListPageFragment(private val authenticatedLayoutFragment: AuthenticatedLayoutFragment) : PageFragments(1, authenticatedLayoutFragment) {
 
     // Backing property for view binding to avoid memory leaks
     private var _binding: FragmentPageEventsListBinding? = null

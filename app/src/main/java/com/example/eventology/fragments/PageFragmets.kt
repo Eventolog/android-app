@@ -8,9 +8,9 @@ import androidx.fragment.app.Fragment
  * Accepts an `order` to indicate the position in the navbar/page stack.
  *
  * @property order The order of the fragment, used for transitions or sorting.
- * @property authentiactedLayoutFragment fragment used to manage page changes from displayed fragments
+ * @property authenticatedLayoutFragment fragment used to manage page changes from displayed fragments
  */
-open class PageFragments(private val order: Int, private val authentiactedLayoutFragment: AuthentiactedLayoutFragment) : Fragment() {
+open class PageFragments(private val order: Int, private val authenticatedLayoutFragment: AuthenticatedLayoutFragment) : Fragment() {
 
     /**
      * Returns the page order index for this fragment.
@@ -20,10 +20,10 @@ open class PageFragments(private val order: Int, private val authentiactedLayout
     }
 
     /**
-     * Returns the [AuthentiactedLayoutFragment] used to display page fragments
+     * Returns the [AuthenticatedLayoutFragment] used to display page fragments
      */
-    fun getAuthenticatedLayoutFragment(): AuthentiactedLayoutFragment{
-        return authentiactedLayoutFragment
+    fun getAuthenticatedLayoutFragment(): AuthenticatedLayoutFragment{
+        return authenticatedLayoutFragment
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -9,10 +9,10 @@ import com.example.eventology.R
 /**
  * Fragmento to show the tickets list.
  *
- * @property authentiactedLayoutFragment fragment used to changes page from this page
+ * @property authenticatedLayoutFragment fragment used to changes page from this page
  *
  */
-class TicketsPageFragment(private val authentiactedLayoutFragment: AuthentiactedLayoutFragment) : PageFragments(2, authentiactedLayoutFragment) {
+class TicketsPageFragment(private val authenticatedLayoutFragment: AuthenticatedLayoutFragment) : PageFragments(2, authenticatedLayoutFragment) {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.fragment_page_tickets, container, false)
     }

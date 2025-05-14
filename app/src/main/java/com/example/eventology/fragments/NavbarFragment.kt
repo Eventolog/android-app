@@ -10,7 +10,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 /**
  * Fragmento the contains the bottom navigation bar.
- * Expose a listener for [AuthentiactedLayoutFragment] manages the navigation state
+ * Expose a listener for [AuthenticatedLayoutFragment] manages the navigation state
  * on page change.
  */
 class NavbarFragment : Fragment() {

@@ -11,7 +11,7 @@ import com.example.eventology.R
  * Main frame that contains the bottom navbar and manages
  * main fragment display on page change
  */
-class AuthentiactedLayoutFragment : Fragment() {
+class AuthenticatedLayoutFragment : Fragment() {
     var currentPage: PageFragments? = null;
 
     override fun onCreateView(
@@ -21,15 +21,15 @@ class AuthentiactedLayoutFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // Cargar pantalla inicial
-        loadPage(EventsListPageFragment())
+        loadPage(EventsListPageFragment(this))
 
         val navbarFragment = childFragmentManager.findFragmentById(R.id.navbar_fragment) as NavbarFragment
 
         navbarFragment.setOnNavigationItemSelectedListener { itemId ->
             when (itemId) {
-                R.id.nav_tickets -> loadPage(TicketsPageFragment())
-                R.id.nav_events -> loadPage(EventsListPageFragment())
-                R.id.nav_incidences -> loadPage(IncidencesPageFragment())
+                R.id.nav_tickets -> loadPage(TicketsPageFragment(this))
+                R.id.nav_events -> loadPage(EventsListPageFragment(this))
+                R.id.nav_incidences -> loadPage(IncidencesPageFragment(this))
             }
         }
     }
