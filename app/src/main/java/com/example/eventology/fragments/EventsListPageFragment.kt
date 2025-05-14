@@ -18,8 +18,10 @@ import kotlinx.coroutines.launch
  * with the list of events via [EventsAdapter].
  *
  * This fragment uses ViewBinding via [FragmentPageEventsListBinding] to interact with its layout.
+ *
+ * @property authentiactedLayoutFragment fragment used to changes page from this page
  */
-class EventsListPageFragment : PageFragments(1) {
+class EventsListPageFragment(private val authentiactedLayoutFragment: AuthentiactedLayoutFragment) : PageFragments(1, authentiactedLayoutFragment) {
 
     // Backing property for view binding to avoid memory leaks
     private var _binding: FragmentPageEventsListBinding? = null

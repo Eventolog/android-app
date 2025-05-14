@@ -37,9 +37,11 @@ class EventsAdapter(private val events: List<Event>) :
             val differenceInMins = DateUtils.getDifferenceInMinutes(event.startTime, event.endTime)
             binding.eventTime.text = "$readableDate · ${differenceInMins} m"
             binding.eventDescription.text = event.description
+
+            // fill the status chip
             var isUpcoming = DateUtils.isUpcoming(event.startTime)
             var chipStyle: Int? = null
-            var chipText: String = ""
+            var chipText = ""
             var textColor: Int? = null;
             if(isUpcoming){
                 chipStyle = R.drawable.chip_background_active
