@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:paddingVertical="@dimen/padding_between_vertical_items"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/eventName"
+            android:textStyle="bold"
+            android:textSize="@dimen/text_size_lg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Event Name" />
+
+        <TextView
+            android:id="@+id/eventStatusChip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/chip_background_active"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_size_sm"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:gravity="center"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/eventDescription"
+        android:textSize="@dimen/text_size_md"
+        android:layout_width="wrap_content"
+        android:paddingTop="@dimen/padding_between_vertical_items"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/eventTime"
+        android:textSize="@dimen/text_size_md"
+        android:layout_width="wrap_content"
+        android:paddingTop="@dimen/padding_between_vertical_items"
+        android:layout_height="wrap_content"/>
+
+    <!-- Bottom gray border -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/padding_vertical_page"
+        android:background="@color/primary" />
+</LinearLayout>
