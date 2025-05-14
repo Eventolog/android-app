@@ -1,11 +1,13 @@
 package com.example.eventology.fragments
 
+import EventDetailPageFragment
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.eventology.adapters.EventsAdapter
+import com.example.eventology.data.models.Event
 import com.example.eventology.data.services.ApiServiceProvider
 import com.example.eventology.databinding.FragmentPageEventsListBinding
 import kotlinx.coroutines.launch
@@ -66,10 +68,13 @@ class EventsListPageFragment(private val authenticatedLayoutFragment: Authentica
                     .sortedByDescending { it.startTime }
 
                 println("events size: " + events.size)
-
+                val onEventClick: (Event) -> Unit = { event ->
+                    val eventDetailPageFragment = EventDetailPageFragment(event, authenticatedLayoutFragment)
+                    authenticatedLayoutFragment.loadPage(eventDetailPageFragment)
+                }
                 // Setup RecyclerView with fetched events
                 binding.eventsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-                binding.eventsRecyclerView.adapter = EventsAdapter(events)
+                binding.eventsRecyclerView.adapter = EventsAdapter(events, onEventClick)
             } catch (e: Exception) {
                 // Log the exception (could be improved with UI error messaging)
                 e.printStackTrace()

@@ -14,8 +14,9 @@ import com.example.eventology.utils.DateUtils
  * Adapter class for displaying a list of [Event] items in a RecyclerView.
  *
  * @param events The list of event objects to be displayed.
+ * @param onEventClick Login to redirect to event detail page on click the event card
  */
-class EventsAdapter(private val events: List<Event>) :
+class EventsAdapter(private val events: List<Event>, private val onEventClick: (Event) -> Unit) :
     RecyclerView.Adapter<EventsAdapter.EventViewHolder>() {
 
     /**
@@ -56,6 +57,11 @@ class EventsAdapter(private val events: List<Event>) :
                 text = chipText
                 setBackgroundResource(chipStyle)
                 setTextColor(textColor)
+            }
+
+            // Set up the click listener for the item
+            binding.root.setOnClickListener {
+                onEventClick(event)  // Invoke the click listener passing the event
             }
         }
     }

@@ -34,7 +34,7 @@ class AuthenticatedLayoutFragment : Fragment() {
         }
     }
 
-    private fun loadPage(fragment: PageFragments) {
+    fun loadPage(fragment: PageFragments) {
         if(currentPage != null){
             if(currentPage!!.getPageOrder() > fragment.getPageOrder()){
                 childFragmentManager.beginTransaction()
