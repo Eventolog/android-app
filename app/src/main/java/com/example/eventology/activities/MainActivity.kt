@@ -10,7 +10,7 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        var intent = Intent(this, AuthenticatedActivity::class.java)
+        val intent = Intent(this, AuthenticatedActivity::class.java)
         startActivity(intent)
     }
 }
