@@ -8,7 +8,8 @@ import androidx.fragment.app.Fragment
 import com.example.eventology.R
 
 /**
- * Fragmento principal que contiene la navbar y gestiona la carga de fragmentos de contenido.
+ * Main frame that contains the bottom navbar and manages
+ * main fragment display on page change
  */
 class AuthentiactedLayoutFragment : Fragment() {
     var currentPage: PageFragments? = null;

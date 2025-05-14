@@ -9,8 +9,9 @@ import com.example.eventology.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 /**
- * Fragmento que contiene la barra de navegación inferior.
- * Expone un listener para que el padre maneje la navegación.
+ * Fragmento the contains the bottom navigation bar.
+ * Expose a listener for [AuthentiactedLayoutFragment] manages the navigation state
+ * on page change.
  */
 class NavbarFragment : Fragment() {
 

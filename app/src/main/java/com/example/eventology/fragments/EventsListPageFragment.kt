@@ -5,7 +5,7 @@ import android.view.*
 import com.example.eventology.R
 
 /**
- * Fragmento para el perfil de usuario.
+ * Fragment to show the events list
  */
 class EventsListPageFragment : PageFragments(1) {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

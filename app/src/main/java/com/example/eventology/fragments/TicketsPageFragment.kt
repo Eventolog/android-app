@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import com.example.eventology.R
 
 /**
- * Fragmento de la pantalla principal (Inicio).
+ * Fragmento to show the tickets list.
  */
 class TicketsPageFragment : PageFragments(2) {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

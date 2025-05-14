@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import com.example.eventology.R
 
 /**
- * Fragmento de configuración de la aplicación.
+ * Fragment to show the incidences list
  */
 class IncidencesPageFragment  : PageFragments(3) {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

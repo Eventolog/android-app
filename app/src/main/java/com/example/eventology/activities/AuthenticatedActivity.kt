@@ -6,8 +6,8 @@ import com.example.eventology.R
 import com.example.eventology.fragments.AuthentiactedLayoutFragment
 
 /**
- * Actividad principal que se muestra después de que el usuario se autentica.
- * Carga el MainFragment que contiene la navegación.
+ * Main activity shown after user gets authenticated.
+ * Load the [AuthentiactedLayoutFragment] that manages page routing.
  */
 class AuthenticatedActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
