@@ -50,4 +50,39 @@ object DateUtils {
         val end = LocalDateTime.parse(endDateStr, inputFormatter)
         return Duration.between(start, end).toMinutes()
     }
+
+
+    /**
+     * Returns the difference between two date strings in a human-readable format.
+     * The result is expressed in days, hours, and minutes.
+     *
+     * @param startDateStr The start date in ISO format: "yyyy-MM-dd'T'HH:mm:ss"
+     * @param endDateStr The end date in ISO format: "yyyy-MM-dd'T'HH:mm:ss"
+     * @return A human-readable string representing the duration, e.g., "1h", "1h 30m", or "2d 3h".
+     */
+    fun getReadableDuration(startDateStr: String, endDateStr: String): String {
+        val inputFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME
+
+        // Parse the start and end dates
+        val start = LocalDateTime.parse(startDateStr, inputFormatter)
+        val end = LocalDateTime.parse(endDateStr, inputFormatter)
+
+        // Calculate the duration between the two times
+        val duration = Duration.between(start, end)
+
+        // Get the total number of days, hours, and minutes
+        val days = duration.toDays()
+        val hours = duration.toHours() % 24
+        val minutes = duration.toMinutes() % 60
+
+        // Build the human-readable string
+        val result = StringBuilder()
+
+        if (days > 0) result.append("${days}d ")
+        if (hours > 0) result.append("${hours}h ")
+        if (minutes > 0 || (days.toInt() == 0 && hours.toInt() == 0)) result.append("${minutes}m")
+
+        // Trim any trailing spaces and return the result
+        return result.toString().trim()
+    }
 }

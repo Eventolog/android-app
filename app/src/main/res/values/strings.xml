@@ -18,4 +18,5 @@
     <string name="events">Events</string>
     <string name="upcoming">Upcoming</string>
     <string name="finished">Finished</string>
+    <string name="duration">Duration</string>
 </resources>

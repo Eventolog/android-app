@@ -3,67 +3,53 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
-    <!-- Event Name -->
-    <TextView
-        android:id="@+id/eventDetailName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:padding="16dp" />
-
-    <!-- Event Description -->
-    <TextView
-        android:id="@+id/eventDetailDescription"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/eventDetailName"
-        android:paddingBottom="8dp"/>
-
-    <!-- Event Time -->
-    <TextView
-        android:id="@+id/eventDetailTime"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/eventDetailDescription"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"/>
-
-    <!-- Event Duration -->
-    <TextView
-        android:id="@+id/eventDetailDuration"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Event Duration"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/eventDetailTime"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"/>
-
-    <!-- Example image for event (optional) -->
+    <!-- ImageView at the top -->
     <ImageView
-        android:id="@+id/eventDetailImage"
-        android:layout_width="0dp"
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
         android:layout_height="200dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/default_event_deail_big_image"
+        android:scaleType="centerCrop"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <!-- Container for text items (Event Name, Description, Time, Duration) -->
+    <LinearLayout
+        android:id="@+id/textContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/padding_horizontal_page"
+        android:paddingVertical="@dimen/padding_vertical_page"
+        app:layout_constraintTop_toBottomOf="@id/imageView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/eventDetailDuration"
-        android:src="@drawable/ic_launcher_foreground" />
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Event Name -->
+        <TextView
+            android:id="@+id/eventDetailName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_title"
+            android:paddingBottom="@dimen/padding_between_vertical_items"
+            android:textStyle="bold" />
+
+        <!-- Event Description -->
+        <TextView
+            android:id="@+id/eventDetailDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_lg"
+            android:paddingBottom="@dimen/padding_between_vertical_items"/>
+
+        <!-- Event Time and Duration-->
+        <TextView
+            android:id="@+id/eventDetailTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_lg"/>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,6 +3,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.eventology.R
 import com.example.eventology.databinding.FragmentEventDetailPageBinding
 import com.example.eventology.utils.DateUtils
 import com.example.eventology.data.models.Event
@@ -27,8 +28,10 @@ class EventDetailPageFragment(private val event: Event, private val authenticate
         // Display event details
         binding.eventDetailName.text = event.name
         binding.eventDetailDescription.text = event.description
-        binding.eventDetailTime.text = DateUtils.toReadableDate(event.startTime)
-        binding.eventDetailDuration.text = "${DateUtils.getDifferenceInMinutes(event.startTime, event.endTime)} mins"
+        var readeableDate = DateUtils.toReadableDate(event.startTime);
+        var readeableDuration = DateUtils.getReadableDuration(event.startTime, event.endTime);
+        var durationTxt = context?.getString(R.string.duration)
+        binding.eventDetailTime.text = "${readeableDate} · ${durationTxt}: ${readeableDuration}"
 
         // Optionally handle other event details like image or location
         // Example: Load event image if available

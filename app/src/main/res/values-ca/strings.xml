@@ -19,4 +19,5 @@
     <string name="finished">Finalitzat</string>
     <string name="error_network">Error de xarxa</string>
     <string name="error_signup_failed">El registre ha fallat</string>
+    <string name="duration" >Duració</string>
 </resources>

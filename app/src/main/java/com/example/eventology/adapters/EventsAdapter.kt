@@ -35,8 +35,9 @@ class EventsAdapter(private val events: List<Event>, private val onEventClick: (
         fun bind(event: Event, context: Context) {
             binding.eventName.text = event.name
             val readableDate = DateUtils.toReadableDate(event.startTime)
-            val differenceInMins = DateUtils.getDifferenceInMinutes(event.startTime, event.endTime)
-            binding.eventTime.text = "$readableDate · ${differenceInMins} m"
+            val readeableDuration = DateUtils.getReadableDuration(event.startTime, event.endTime)
+            val durationTxt = context.getString(R.string.duration)
+            binding.eventTime.text = "$readableDate · ${durationTxt}: ${readeableDuration}  "
             binding.eventDescription.text = event.description
 
             // fill the status chip
