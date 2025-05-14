@@ -3,14 +3,14 @@ package com.example.eventology.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.example.eventology.constants.BaseActivity
 import com.example.eventology.data.services.ApiServiceProvider
 import com.example.eventology.data.services.DataServiceInterface
 import com.example.eventology.databinding.ActivityRegisterBinding
 import kotlinx.coroutines.launch
 
-class RegisterActivity : AppCompatActivity() {
+class RegisterActivity : BaseActivity() {
     private lateinit var binding: ActivityRegisterBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
