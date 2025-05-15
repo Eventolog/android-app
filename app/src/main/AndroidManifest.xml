@@ -8,6 +8,7 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:networkSecurityConfig="@xml/network_security_config"
@@ -33,9 +34,4 @@
         <activity android:name=".activities.RegisterActivity" />
         <activity android:name=".activities.AuthenticatedActivity" />
     </application>
-    <uses-permission android:name="android.permission.CAMERA"
-        tools:ignore="ManifestOrder" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="32" />
-    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
