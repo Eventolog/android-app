@@ -1,27 +1,33 @@
-import android.view.View
-import android.os.Bundle
-import android.view.ViewGroup
+import android.app.Activity
 import android.app.AlertDialog
-import android.widget.ImageView
-import com.example.eventology.R
+import android.content.Intent
+import android.graphics.Bitmap
+import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
+import com.example.eventology.R
+import com.example.eventology.constants.UserTypes
+import com.example.eventology.databinding.FragmentEventDetailPageBinding
 import com.example.eventology.utils.DateUtils
 import com.example.eventology.data.models.Event
-import com.example.eventology.constants.UserTypes
-import com.example.eventology.fragments.PageFragments
-import com.example.eventology.utils.ImageUtilityClass
-import com.example.eventology.fragments.SelectSeatFragment
 import com.example.eventology.data.services.ApiServiceProvider
 import com.example.eventology.fragments.AuthenticatedLayoutFragment
-import com.example.eventology.databinding.FragmentEventDetailPageBinding
+import com.example.eventology.fragments.PageFragments
+import com.example.eventology.utils.CameraHelper
 
-class EventDetailPageFragment(
-    private val event: Event,
-    private val authenticatedLayoutFragment: AuthenticatedLayoutFragment
-) : PageFragments(10, authenticatedLayoutFragment) {
+/**
+ * This fragment show the detail of an event, for the organizer it allows to update its image
+ * and for the normal user it allows to buy event tickets
+ */
+class EventDetailPageFragment(private val event: Event, private val authenticatedLayoutFragment: AuthenticatedLayoutFragment) : PageFragments(10, authenticatedLayoutFragment) {
 
     private var _binding: FragmentEventDetailPageBinding? = null
     private val binding get() = _binding!!
+    private lateinit var takePictureLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -30,8 +36,13 @@ class EventDetailPageFragment(
         return binding.root
     }
 
+    /**
+     * Fills the data of the fragment layout with event details, also
+     * adds button login depending of the [UserTypes] of the authenticated user
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+       initializeCamera()
 
         // name
         binding.eventDetailName.text = event.name
@@ -40,45 +51,80 @@ class EventDetailPageFragment(
         binding.eventDetailDescription.text = event.description
 
         // date and duration
-        val readableDate = DateUtils.toReadableDate(event.startTime)
-        val readableDuration = DateUtils.getReadableDuration(event.startTime, event.endTime)
-        val durationTxt = context?.getString(R.string.duration)
-        binding.eventDetailTime.text = "$readableDate · $durationTxt: $readableDuration"
+        var readeableDate = DateUtils.toReadableDate(event.startTime);
+        var readeableDuration = DateUtils.getReadableDuration(event.startTime, event.endTime);
+        var durationTxt = context?.getString(R.string.duration)
+        binding.eventDetailTime.text = "${readeableDate} · ${durationTxt}: ${readeableDuration}"
 
-        // user role
-        val role = ApiServiceProvider.getDataService().getUser()?.type ?: UserTypes.NORMAL
-
-        if (role == UserTypes.NORMAL) {
+        // bottom text and redirection depend of the user role
+        var role = ApiServiceProvider.getDataService().getUser()?.type ?: UserTypes.ORGANIZER
+        if(role.equals(UserTypes.NORMAL)){
             binding.actionButton.setText(R.string.buyTicket)
-            binding.actionButton.setOnClickListener {
-                authenticatedLayoutFragment.loadPage(
-                    SelectSeatFragment(authenticatedLayoutFragment, event.id)
-                )
-            }
-        } else if (role == UserTypes.ORGANIZER) {
+        }else if (role.equals(UserTypes.ORGANIZER)) {
+
+
             binding.actionButton.setText(R.string.updateEventImage)
             binding.actionButton.setOnClickListener {
-                val options = arrayOf("Take Picture", "Upload Image")
+                val options = arrayOf("Take Picture", "Upload Image", "Remove Image")
                 AlertDialog.Builder(requireContext())
                     .setTitle("Select Option")
-                    .setItems(options) { _, which ->
+                    .setItems(options) { dialog, which ->
                         when (which) {
-                            0 -> ImageUtilityClass.openCamera(this)
-                            1 -> ImageUtilityClass.openGallery(this)
+                            0 -> replaceImageFromCamera()
+                            1 -> replaceImageFromGallery()
+                            2 -> replaceImageToDeafult()
                         }
                     }
                     .show()
             }
         }
 
-        // Go back logic
-        binding.root.findViewById<ImageView>(R.id.goBackBtn).setOnClickListener {
-            authenticatedLayoutFragment.goBack()
+
+    }
+
+    /**
+     * Initalize the takePictureLauncher to listen on
+     * succes taken image [ameraHelper.checkPermissionAndOpenCamera]
+     */
+    private fun initializeCamera(){
+        // initialize camera
+        takePictureLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val imageBitmap = result.data?.extras?.get("data") as? Bitmap
+                binding.imageView.setImageBitmap(imageBitmap)
+            }
         }
 
-        // TODO: handle other event details like image
-        // Example: Load event image if available
-        // binding.eventDetailImage.setImageResource(event.imageResId)
+        // Setup helper with launcher
+        CameraHelper.setup(takePictureLauncher)
+    }
+
+    /**
+     * Replace image by the default
+     */
+    private fun replaceImageToDeafult(){
+        binding.imageView.setImageDrawable(
+            ContextCompat.getDrawable(requireContext(), R.drawable.default_event_deail_big_image)
+        )
+    }
+
+    /**
+     * Opens the camera, take an image and if success load it into
+     * [binding.imageView]
+     */
+    private fun replaceImageFromCamera(){
+        CameraHelper.checkPermissionAndOpenCamera(requireActivity())
+    }
+
+
+    /**
+     * Opens the gallery, take an image and if success load it into
+     * [binding.imageView]
+     */
+    private fun replaceImageFromGallery(){
+
     }
 
     override fun onDestroyView() {
@@ -86,3 +132,4 @@ class EventDetailPageFragment(
         _binding = null
     }
 }
+
