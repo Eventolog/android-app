@@ -30,6 +30,7 @@ class TicketsAdapter(
     override fun onBindViewHolder(holder: TicketViewHolder, position: Int) {
         val seat = seats[position]
         holder.seatLabel.text = "Fila ${seat.row}, seient ${seat.number}"
+
         holder.seatCheckBox.setOnCheckedChangeListener(null)
         holder.seatCheckBox.isChecked = selectedSeats.contains(seat)
 
@@ -41,5 +42,14 @@ class TicketsAdapter(
             }
             onSelectionChanged(selectedSeats.toList())
         }
+
+        val context = holder.itemView.context
+        val textColor = if (position % 2 == 0) {
+            context.getColor(R.color.row_even)
+        } else {
+            context.getColor(R.color.primary)
+        }
+        holder.seatLabel.setTextColor(textColor)
     }
+
 }
