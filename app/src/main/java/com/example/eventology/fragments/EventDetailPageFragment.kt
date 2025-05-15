@@ -18,6 +18,7 @@ import com.example.eventology.data.services.ApiServiceProvider
 import com.example.eventology.fragments.AuthenticatedLayoutFragment
 import com.example.eventology.fragments.PageFragments
 import com.example.eventology.utils.CameraHelper
+import com.example.eventology.utils.EventFileUtils
 
 /**
  * This fragment show the detail of an event, for the organizer it allows to update its image
@@ -43,6 +44,14 @@ class EventDetailPageFragment(private val event: Event, private val authenticate
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
        initializeCamera()
+
+        // load event image if exists
+        val storedImage = EventFileUtils.loadEventImage(requireContext(), event.id.toString())
+        if (storedImage != null) {
+            binding.imageView.setImageBitmap(storedImage)
+        } else {
+            replaceImageToDeafult()
+        }
 
         // name
         binding.eventDetailName.text = event.name
@@ -94,6 +103,7 @@ class EventDetailPageFragment(private val event: Event, private val authenticate
             if (result.resultCode == Activity.RESULT_OK) {
                 val imageBitmap = result.data?.extras?.get("data") as? Bitmap
                 binding.imageView.setImageBitmap(imageBitmap)
+                EventFileUtils.saveEventImage(requireContext(), event.id.toString(), imageBitmap)
             }
         }
 
@@ -105,9 +115,13 @@ class EventDetailPageFragment(private val event: Event, private val authenticate
      * Replace image by the default
      */
     private fun replaceImageToDeafult(){
+        // set default image to the view
         binding.imageView.setImageDrawable(
             ContextCompat.getDrawable(requireContext(), R.drawable.default_event_deail_big_image)
         )
+
+        // delete the event image at the FileStorage
+        EventFileUtils.deleteEventImage(requireContext(), event.id.toString())
     }
 
     /**
