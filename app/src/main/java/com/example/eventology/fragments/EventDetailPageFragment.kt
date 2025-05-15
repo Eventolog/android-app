@@ -1,19 +1,19 @@
-import android.app.AlertDialog
-import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
+import android.os.Bundle
 import android.view.ViewGroup
+import android.app.AlertDialog
 import android.widget.ImageView
 import com.example.eventology.R
-import com.example.eventology.constants.UserTypes
-import com.example.eventology.databinding.FragmentEventDetailPageBinding
+import android.view.LayoutInflater
 import com.example.eventology.utils.DateUtils
 import com.example.eventology.data.models.Event
+import com.example.eventology.constants.UserTypes
+import com.example.eventology.fragments.PageFragments
+import com.example.eventology.utils.ImageUtilityClass
+import com.example.eventology.fragments.SelectSeatFragment
 import com.example.eventology.data.services.ApiServiceProvider
 import com.example.eventology.fragments.AuthenticatedLayoutFragment
-import com.example.eventology.fragments.PageFragments
-import com.example.eventology.fragments.SelectSeatFragment
-import com.example.eventology.utils.ImageUtilityClass
+import com.example.eventology.databinding.FragmentEventDetailPageBinding
 
 class EventDetailPageFragment(
     private val event: Event,
