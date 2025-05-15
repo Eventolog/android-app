@@ -25,4 +25,5 @@
     <string name="ticket_reserved">Ticket Reserved</string>
     <string name="select_seat">Select Seat</string>
     <string name="incidences">Incidences</string>
+    <string name="add_incidence">Add Incidence</string>
 </resources>

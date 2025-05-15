@@ -38,6 +38,16 @@ class IncidenceAdapter(private val incidences: List<Incidence>) :
     }
 
     /**
+     * Capitalize the first letter of a string
+     *
+     * @param text string to capitalize
+     * @return capitalized string
+     */
+    fun capitalizeWords(text: String): String {
+        return text.split(" ").joinToString(" ") { it.replaceFirstChar { c -> c.uppercase() } }
+    }
+
+    /**
      * Called by RecyclerView to display the data at the specified position.
      *
      * @param holder The ViewHolder which should be updated.
@@ -46,7 +56,7 @@ class IncidenceAdapter(private val incidences: List<Incidence>) :
     override fun onBindViewHolder(holder: IncidenceViewHolder, position: Int) {
         val incidence = incidences[position]
         holder.reasonTextView.text = incidence.reason
-        holder.statusTextView.text = incidence.status
+        holder.statusTextView.text = capitalizeWords(incidence.status)
     }
 
     /**

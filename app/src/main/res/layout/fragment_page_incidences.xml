@@ -1,20 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:paddingHorizontal="16dp"
-    android:paddingVertical="16dp"
+    android:paddingHorizontal="@dimen/padding_horizontal_page"
+    android:paddingVertical="@dimen/padding_vertical_page"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/appTitle"
-        android:text="@string/incidences"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingVertical="8dp"
-        />
+        android:paddingVertical="@dimen/padding_vertical_title"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:id="@+id/appTitle"
+            android:text="@string/incidences"
+            android:textSize="@dimen/text_size_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <Button
+            android:id="@+id/addIncidenceButton"
+            android:text="@string/add_incidence"
+            android:backgroundTint="@color/primary"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/text_button"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/incidencesRecyclerView"

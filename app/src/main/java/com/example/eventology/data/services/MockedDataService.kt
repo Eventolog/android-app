@@ -2,6 +2,7 @@ package com.example.eventology.data.services
 
 import android.content.Context
 import com.example.eventology.R
+import com.example.eventology.constants.IncidenceTypes
 import com.example.eventology.data.models.Seat
 import com.example.eventology.data.models.User
 import com.example.eventology.data.models.Event
@@ -12,7 +13,7 @@ import com.example.eventology.data.models.Incidence
 object MockDataService : DataServiceInterface {
     private var user: User? = null
 
-    private var incidencesList = listOf(
+    private var incidencesList = mutableListOf<Incidence>(
         Incidence(
             id = 1,
             reason = "No he rebut les entrades per correu",
@@ -349,7 +350,11 @@ object MockDataService : DataServiceInterface {
     }
 
     override suspend fun createIncidence(reason: String): Boolean {
-
+        incidencesList.add(Incidence(
+            id = 1,
+            reason = reason,
+            status = IncidenceTypes.OPEN,
+        ))
         return true;
     }
 }

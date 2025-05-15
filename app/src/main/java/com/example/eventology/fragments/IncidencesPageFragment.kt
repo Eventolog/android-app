@@ -1,40 +1,56 @@
 package com.example.eventology.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.eventology.R
 import com.example.eventology.adapters.IncidenceAdapter
-import com.example.eventology.data.models.Incidence
 import com.example.eventology.data.services.ApiServiceProvider
+import com.example.eventology.databinding.FragmentPageIncidencesBinding
 import kotlinx.coroutines.launch
 
 /**
- * Fragment to show the incidences list
+ * Fragment that displays a list of user-related incidences.
  *
- * @property authenticatedLayoutFragment fragment used to changes page from this page
+ * A title and "Add Incidence" button are shown at the top.
+ * The incidences are displayed in a vertical scrollable list using a RecyclerView.
+ *
+ * @property authenticatedLayoutFragment Used for communicating or navigating from this fragment.
  */
-class IncidencesPageFragment(private val authenticatedLayoutFragment: AuthenticatedLayoutFragment)
-    : PageFragments(3, authenticatedLayoutFragment) {
+class IncidencesPageFragment(
+    private val authenticatedLayoutFragment: AuthenticatedLayoutFragment
+) : PageFragments(3, authenticatedLayoutFragment) {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val view = inflater.inflate(R.layout.fragment_page_incidences, container, false)
+    private var _binding: FragmentPageIncidencesBinding? = null
+    private val binding get() = _binding!!
 
-        val recyclerView = view.findViewById<RecyclerView>(R.id.incidencesRecyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(context)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentPageIncidencesBinding.inflate(inflater, container, false)
 
-        lifecycleScope.launch {
+        // Setup RecyclerView layout manager
+        binding.incidencesRecyclerView.layoutManager = LinearLayoutManager(context)
 
-            var incidences = ApiServiceProvider.getDataService().getMyIncidences()
-
-            val adapter = IncidenceAdapter(incidences)
-            recyclerView.adapter = adapter
+        // Setup Add Incidence button click
+        binding.addIncidenceButton.setOnClickListener {
+            Log.d("IncidencesPageFragment", "Add Incidence clicked")
         }
 
-        return view
+        // Fetch incidences and set up adapter
+        lifecycleScope.launch {
+            val incidences = ApiServiceProvider.getDataService().getMyIncidences()
+            binding.incidencesRecyclerView.adapter = IncidenceAdapter(incidences)
+        }
+
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

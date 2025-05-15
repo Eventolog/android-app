@@ -25,5 +25,6 @@
     <string name="updateEventImage" >Actualitzar imatge del event</string>
     <string name="ticket_reserved">Entrada Reservada</string>
     <string name="select_seat">Cadira Seleccionada</string>
-    <string name="incidences">Incidencies</string>
+    <string name="incidences">Incidències</string>
+    <string name="add_incidence">Afegir incidència</string>
 </resources>
