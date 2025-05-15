@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.fragment.app.Fragment
 import com.example.eventology.R
 import com.example.eventology.constants.UserTypes
 import com.example.eventology.databinding.FragmentEventDetailPageBinding
@@ -13,9 +12,13 @@ import com.example.eventology.data.models.Event
 import com.example.eventology.data.services.ApiServiceProvider
 import com.example.eventology.fragments.AuthenticatedLayoutFragment
 import com.example.eventology.fragments.PageFragments
+import com.example.eventology.fragments.SelectSeatFragment
 import com.example.eventology.utils.ImageUtilityClass
 
-class EventDetailPageFragment(private val event: Event, private val authenticatedLayoutFragment: AuthenticatedLayoutFragment) : PageFragments(10, authenticatedLayoutFragment) {
+class EventDetailPageFragment(
+    private val event: Event,
+    private val authenticatedLayoutFragment: AuthenticatedLayoutFragment
+) : PageFragments(10, authenticatedLayoutFragment) {
 
     private var _binding: FragmentEventDetailPageBinding? = null
     private val binding get() = _binding!!
@@ -37,22 +40,28 @@ class EventDetailPageFragment(private val event: Event, private val authenticate
         binding.eventDetailDescription.text = event.description
 
         // date and duration
-        var readeableDate = DateUtils.toReadableDate(event.startTime);
-        var readeableDuration = DateUtils.getReadableDuration(event.startTime, event.endTime);
-        var durationTxt = context?.getString(R.string.duration)
-        binding.eventDetailTime.text = "${readeableDate} · ${durationTxt}: ${readeableDuration}"
+        val readableDate = DateUtils.toReadableDate(event.startTime)
+        val readableDuration = DateUtils.getReadableDuration(event.startTime, event.endTime)
+        val durationTxt = context?.getString(R.string.duration)
+        binding.eventDetailTime.text = "$readableDate · $durationTxt: $readableDuration"
 
-        // bottom text and redirection depend of the user role
-        var role = ApiServiceProvider.getDataService().getUser()?.type ?: UserTypes.ORGANIZER
-        if(role.equals(UserTypes.NORMAL)){
+        // user role
+        val role = ApiServiceProvider.getDataService().getUser()?.type ?: UserTypes.ORGANIZER
+
+        if (role == UserTypes.NORMAL) {
             binding.actionButton.setText(R.string.buyTicket)
-        }else if (role.equals(UserTypes.ORGANIZER)) {
+            binding.actionButton.setOnClickListener {
+                authenticatedLayoutFragment.loadPage(
+                    SelectSeatFragment(authenticatedLayoutFragment, event.id)
+                )
+            }
+        } else if (role == UserTypes.ORGANIZER) {
             binding.actionButton.setText(R.string.updateEventImage)
             binding.actionButton.setOnClickListener {
                 val options = arrayOf("Take Picture", "Upload Image")
                 AlertDialog.Builder(requireContext())
                     .setTitle("Select Option")
-                    .setItems(options) { dialog, which ->
+                    .setItems(options) { _, which ->
                         when (which) {
                             0 -> ImageUtilityClass.openCamera(this)
                             1 -> ImageUtilityClass.openGallery(this)
@@ -62,10 +71,14 @@ class EventDetailPageFragment(private val event: Event, private val authenticate
             }
         }
 
+        // Go back logic
+        binding.root.findViewById<ImageView>(R.id.goBackBtn).setOnClickListener {
+            authenticatedLayoutFragment.goBack()
+        }
 
         // TODO: handle other event details like image
         // Example: Load event image if available
-        // binding.eventDetailImage.setImageResource(event.imageResId) // If the event has an image
+        // binding.eventDetailImage.setImageResource(event.imageResId)
     }
 
     override fun onDestroyView() {
@@ -73,4 +86,3 @@ class EventDetailPageFragment(private val event: Event, private val authenticate
         _binding = null
     }
 }
-

@@ -22,4 +22,5 @@
     <string name="buyTicket">Buy tickets</string>
     <string name="tickets">Tickets</string>
     <string name="updateEventImage" >Update event image</string>
+    <string name="ticket_reserved">Ticket Reserved</string>
 </resources>
