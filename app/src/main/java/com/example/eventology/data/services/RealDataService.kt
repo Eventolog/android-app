@@ -12,7 +12,11 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 object RealDataService : DataServiceInterface {
-    var user: User? = null
+    private var user: User? = null
+
+    override fun getUser(): User? {
+        return this.user
+    }
 
     override suspend fun login(email: String, password: String, context: Context): String? {
         return withContext(Dispatchers.IO) {
@@ -132,9 +136,5 @@ object RealDataService : DataServiceInterface {
                 emptyList()
             }
         }
-    }
-
-    override fun getUser(): User {
-        TODO("Not yet implemented")
     }
 }

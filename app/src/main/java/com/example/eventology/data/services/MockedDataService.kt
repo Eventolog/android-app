@@ -7,7 +7,7 @@ import com.example.eventology.data.models.User
 import com.example.eventology.R
 
 object MockDataService : DataServiceInterface {
-    var user: User? = null
+    private var user: User? = null
 
     override fun getUser(): User? {
         return this.user
