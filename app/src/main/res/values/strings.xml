@@ -24,4 +24,5 @@
     <string name="updateEventImage" >Update event image</string>
     <string name="ticket_reserved">Ticket Reserved</string>
     <string name="select_seat">Select Seat</string>
+    <string name="incidences">Incidences</string>
 </resources>

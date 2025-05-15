@@ -2,6 +2,7 @@ package com.example.eventology.data.services
 
 import android.content.Context
 import com.example.eventology.data.models.Event
+import com.example.eventology.data.models.Incidence
 import com.example.eventology.data.models.Seat
 import com.example.eventology.data.models.Ticket
 import com.example.eventology.data.models.User
@@ -93,4 +94,19 @@ interface DataServiceInterface {
      * @return A list of tickets, each containing seat, event, and status information.
      */
     suspend fun getMyTickets(): List<Ticket>
+
+    /**
+     * Retrieves the list of incidences created by the authenticated user.
+     *
+     * @return A list of incidences
+     */
+    suspend fun getMyIncidences(): List<Incidence>
+
+    /**
+     * Creates an incidence for the authenticated user
+     * @param the context of the incidence
+     *
+     * @return `true` if succeded or `false` if any error happened
+     */
+    suspend fun createIncidence(reason: String): Boolean
 }

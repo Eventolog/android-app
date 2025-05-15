@@ -11,4 +11,5 @@
     <dimen name="padding_vertical_page">16dp</dimen>
     <dimen name="padding_vertical_title">16dp</dimen>
     <dimen name="padding_between_vertical_items">8dp</dimen>
+    <dimen name="padding_between_vertical_items_xl">24dp</dimen>
 </resources>

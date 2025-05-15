@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingVertical="@dimen/padding_between_vertical_items_xl">
+
+    <!--  Incidence reason  -->
+    <TextView
+        android:id="@+id/incidenceReason"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textColor="#000000"
+        android:textSize="@dimen/text_size_lg" />
+
+    <!--  Incidence status  -->
+    <TextView
+        android:paddingLeft="@dimen/padding_horizontal_page"
+        android:id="@+id/incidenceStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#888888"
+        android:textSize="@dimen/text_size_lg"
+        />
+</LinearLayout>

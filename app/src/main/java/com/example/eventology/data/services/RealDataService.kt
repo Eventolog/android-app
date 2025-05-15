@@ -13,6 +13,7 @@ import com.example.eventology.data.models.Seat
 import com.example.eventology.data.models.Event
 import com.example.eventology.data.models.Ticket
 import com.example.eventology.constants.UserTypes
+import com.example.eventology.data.models.Incidence
 
 /**
  * Implementation of [DataServiceInterface] that connects to the real backend API.
@@ -252,6 +253,7 @@ object RealDataService : DataServiceInterface {
         }
     }
 
+    
     /**
      * Books a list of seat IDs for the given event.
      *
@@ -321,5 +323,13 @@ object RealDataService : DataServiceInterface {
             e.printStackTrace()
             emptyList()
         }
+    }
+
+    override suspend fun getMyIncidences(): List<Incidence> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun createIncidence(reason: String): Boolean {
+        TODO("Not yet implemented")
     }
 }
