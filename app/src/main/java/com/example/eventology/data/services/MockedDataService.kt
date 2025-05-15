@@ -7,7 +7,14 @@ import com.example.eventology.data.models.User
 import com.example.eventology.R
 
 object MockDataService : DataServiceInterface {
-    var user: User? = null;
+    private var _user: User? = null
+
+    val user: User?
+        get() = _user
+
+    fun setUser(u: User) {
+        _user = u
+    }
 
     private fun matchNormalUserCredentials(email: String, password: String): Boolean{
         var validEmail: String = "normal@gmail.com"
@@ -27,22 +34,26 @@ object MockDataService : DataServiceInterface {
         var errorMsg: String? = null;
         var matchNormalUser = matchNormalUserCredentials(email, password)
         var matchOrganizerUser = matchOrganizerUserCredentials(email, password)
-        if(matchNormalUser){
-            this.user = User(
-                name = "Usuario Normal",
-                email = email,
-                type = UserTypes.NORMAL,
-                jwt = ""
-            );
-        }else if(matchOrganizerUser){
-            this.user = User(
-                name = "Usuario Organizador",
-                email = email,
-                type = UserTypes.ORGANIZER,
-                jwt = ""
-            );
-        }
-        else{
+
+        if (matchNormalUser) {
+            setUser(
+                User(
+                    name = "Usuario Normal",
+                    email = email,
+                    type = UserTypes.NORMAL,
+                    jwt = ""
+                )
+            )
+        } else if (matchOrganizerUser) {
+            setUser(
+                User(
+                    name = "Usuario Organizador",
+                    email = email,
+                    type = UserTypes.ORGANIZER,
+                    jwt = ""
+                )
+            )
+        } else {
             errorMsg = context.getString(R.string.error_invalid_credentials)
         }
 
@@ -50,9 +61,9 @@ object MockDataService : DataServiceInterface {
     }
 
     override suspend fun signup(name: String, email: String, password: String, context: Context): String? {
-        var errorMsg: String? = null;
+        var errorMsg: String? = null
 
-        // Validate email format using a simple regex
+        // Validate email format
         val emailRegex = "^[A-Za-z0-9+_.-]+@(.+)\$".toRegex()
         if (!emailRegex.matches(email)) {
             errorMsg = context.getString(R.string.error_invalid_email_format)
@@ -63,15 +74,18 @@ object MockDataService : DataServiceInterface {
             errorMsg = context.getString(R.string.error_password_length)
         }
 
-        // If no validation errors, create the user
+        // Create the user if validations pass
         if (errorMsg == null) {
-            this.user = User(
-                name = name,
-                email = email,
-                type = UserTypes.ORGANIZER,
-                jwt = ""
+            setUser(
+                User(
+                    name = name,
+                    email = email,
+                    type = UserTypes.ORGANIZER,
+                    jwt = ""
+                )
             )
         }
+
         return errorMsg
     }
 
