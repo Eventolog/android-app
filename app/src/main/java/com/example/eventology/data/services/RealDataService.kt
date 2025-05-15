@@ -1,18 +1,18 @@
 package com.example.eventology.data.services
 
-import android.content.Context
-import com.example.eventology.R
-import com.example.eventology.data.models.Event
-import com.example.eventology.data.models.Seat
-import com.example.eventology.data.models.User
-import com.example.eventology.constants.UserTypes
-import com.example.eventology.data.models.Ticket
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import java.net.URL
 import org.json.JSONArray
 import org.json.JSONObject
+import android.content.Context
+import com.example.eventology.R
 import java.net.HttpURLConnection
-import java.net.URL
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.Dispatchers
+import com.example.eventology.data.models.User
+import com.example.eventology.data.models.Seat
+import com.example.eventology.data.models.Event
+import com.example.eventology.data.models.Ticket
+import com.example.eventology.constants.UserTypes
 
 /**
  * Implementation of [DataServiceInterface] that connects to the real backend API.
@@ -167,11 +167,16 @@ object RealDataService : DataServiceInterface {
                 it.write(jsonBody.toString().toByteArray())
             }
 
-            if (connection.responseCode == 201) null
-            else context.getString(R.string.error_signup_failed)
+            if (connection.responseCode == 201) {
+                null
+            } else {
+                // Llegeix el missatge d’error del cos de la resposta si hi és
+                val errorMsg = connection.errorStream?.bufferedReader()?.readText()?.takeIf { it.isNotBlank() }
+                errorMsg ?: "Signup failed with HTTP ${connection.responseCode}"
+            }
         } catch (e: Exception) {
             e.printStackTrace()
-            context.getString(R.string.error_network)
+            e.message ?: "Network error"
         }
     }
 

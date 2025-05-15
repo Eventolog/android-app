@@ -23,4 +23,6 @@
     <string name="buyTicket">Comprar entrades</string>
     <string name="tickets">Entrades</string>
     <string name="updateEventImage" >Actualitzar imatge del event</string>
+    <string name="ticket_reserved">Entrada Reservada</string>
+    <string name="select_seat">Cadira Seleccionada</string>
 </resources>
