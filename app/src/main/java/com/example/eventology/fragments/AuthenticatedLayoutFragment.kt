@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.example.eventology.R
 import java.util.Stack
 
@@ -51,42 +52,74 @@ class AuthenticatedLayoutFragment : Fragment() {
         if (recordHistory && currentPage != null) {
             pageHistory.push(currentPage!!)
         }
+
+        // Create transaction
+        val transaction = childFragmentManager.beginTransaction()
+
+        // Set an animation to the fragment transaction
+        setAnimationToFragmentTransaction(fragment, transaction)
+
+        // Commit transaction
+        transaction.replace(R.id.page_container, fragment)
+            .commit()
+
+        currentPage = fragment
+
+        // Ensure the transaction is committed and view is available
+        childFragmentManager.executePendingTransactions()
+
+        // Set up back button if it exists
+        val fragmentView = fragment.view
+        val goBackBtn = fragmentView?.findViewById<View>(R.id.goBackBtn)
+        goBackBtn?.setOnClickListener {
+            goBack()
+        }
+    }
+
+    /**
+     * Based on if this.currentPage is not null or [PageFragments.getPageOrder] define
+     * if the transaction will be a slide to the left or to the right
+     * if this.currentPage is null or currentPage.getPageOrder is smaller than the
+     * newFragment.getPageOrder it will be a slide to the right,
+     * in the other hand if the currentPage.getPageOrder is bigger than newFragment.getPageOrder
+     * it will be a slide to the left
+     *
+     * @param newFragment new fragment being loaded, used to get its [PageFragments.getPageOrder]
+     * and compare to te one of the this.currentPage
+     *
+     * @param transaction the fragment transaction to set the animation
+     */
+    fun setAnimationToFragmentTransaction(
+        newFragment: PageFragments,
+        transaction: FragmentTransaction){
         if(currentPage != null){
-            if(currentPage!!.getPageOrder() > fragment.getPageOrder()){
-                childFragmentManager.beginTransaction()
-                    .setCustomAnimations(
-                        R.anim.slide_in_left,      // Pop enter (when going back)
-                        R.anim.slide_out_right,     // Pop exit
-                        R.anim.slide_in_right,     // Enter
-                        R.anim.slide_out_left
-                    )
-                    .replace(R.id.page_container, fragment)
-                    .commit()
+            if(currentPage!!.getPageOrder() > newFragment.getPageOrder()){
+                transaction.setCustomAnimations(
+                    R.anim.slide_in_left,      // Pop enter (when going back)
+                    R.anim.slide_out_right,     // Pop exit
+                    R.anim.slide_in_right,     // Enter
+                    R.anim.slide_out_left
+                )
+
             }else{
 
-                childFragmentManager.beginTransaction()
-                    .setCustomAnimations(
-                        R.anim.slide_in_right,     // Enter
-                        R.anim.slide_out_left,     // Exit
-                        R.anim.slide_in_left,      // Pop enter (when going back)
-                        R.anim.slide_out_right     // Pop exit
-                    )
-                    .replace(R.id.page_container, fragment)
-                    .commit()
-            }
-        }else{
-            childFragmentManager.beginTransaction()
-                .setCustomAnimations(
+                transaction.setCustomAnimations(
                     R.anim.slide_in_right,     // Enter
                     R.anim.slide_out_left,     // Exit
                     R.anim.slide_in_left,      // Pop enter (when going back)
                     R.anim.slide_out_right     // Pop exit
                 )
-                .replace(R.id.page_container, fragment)
-                .commit()
-        }
 
-        currentPage = fragment
+            }
+        }else {
+            transaction.setCustomAnimations(
+                R.anim.slide_in_right,     // Enter
+                R.anim.slide_out_left,     // Exit
+                R.anim.slide_in_left,      // Pop enter (when going back)
+                R.anim.slide_out_right     // Pop exit
+            )
+
+        }
     }
 
     /**

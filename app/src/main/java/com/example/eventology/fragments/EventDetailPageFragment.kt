@@ -44,12 +44,8 @@ class EventDetailPageFragment(private val event: Event, private val authenticate
         var role = ApiServiceProvider.getDataService().getUser()?.type ?: UserTypes.NORMAL
         if(role.equals(UserTypes.NORMAL)){
             binding.actionButton.setText(R.string.buyTicket)
-        }else if (role.equals(UserTypes.ORGANIZER)){
+        }else if (role.equals(UserTypes.ORGANIZER)) {
 
-        }
-        // go previos page logic
-        binding.root.findViewById<ImageView>(R.id.goBackBtn).setOnClickListener {
-            authenticatedLayoutFragment.goBack()
         }
 
 
