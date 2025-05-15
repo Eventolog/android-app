@@ -1,3 +1,4 @@
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import com.example.eventology.data.models.Event
 import com.example.eventology.data.services.ApiServiceProvider
 import com.example.eventology.fragments.AuthenticatedLayoutFragment
 import com.example.eventology.fragments.PageFragments
+import com.example.eventology.utils.ImageUtilityClass
 
 class EventDetailPageFragment(private val event: Event, private val authenticatedLayoutFragment: AuthenticatedLayoutFragment) : PageFragments(10, authenticatedLayoutFragment) {
 
@@ -41,11 +43,23 @@ class EventDetailPageFragment(private val event: Event, private val authenticate
         binding.eventDetailTime.text = "${readeableDate} · ${durationTxt}: ${readeableDuration}"
 
         // bottom text and redirection depend of the user role
-        var role = ApiServiceProvider.getDataService().getUser()?.type ?: UserTypes.NORMAL
+        var role = ApiServiceProvider.getDataService().getUser()?.type ?: UserTypes.ORGANIZER
         if(role.equals(UserTypes.NORMAL)){
             binding.actionButton.setText(R.string.buyTicket)
         }else if (role.equals(UserTypes.ORGANIZER)) {
-
+            binding.actionButton.setText(R.string.updateEventImage)
+            binding.actionButton.setOnClickListener {
+                val options = arrayOf("Take Picture", "Upload Image")
+                AlertDialog.Builder(requireContext())
+                    .setTitle("Select Option")
+                    .setItems(options) { dialog, which ->
+                        when (which) {
+                            0 -> ImageUtilityClass.openCamera(this)
+                            1 -> ImageUtilityClass.openGallery(this)
+                        }
+                    }
+                    .show()
+            }
         }
 
 
