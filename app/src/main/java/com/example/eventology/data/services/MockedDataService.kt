@@ -7,53 +7,46 @@ import com.example.eventology.data.models.User
 import com.example.eventology.R
 
 object MockDataService : DataServiceInterface {
-    private var _user: User? = null
+    var user: User? = null
 
-    val user: User?
-        get() = _user
-
-    fun setUser(u: User) {
-        _user = u
+    override fun getUser(): User? {
+        return this.user
     }
 
     private fun matchNormalUserCredentials(email: String, password: String): Boolean{
-        var validEmail: String = "normal@gmail.com"
-        var validPassword: String = "passw0rd"
-        val matchNormalUserCredentials = email.equals(validEmail) && password.equals(validPassword);
-        return matchNormalUserCredentials;
+        val validEmail = "normal@gmail.com"
+        val validPassword = "passw0rd"
+        val matchNormalUserCredentials = email == validEmail && password == validPassword
+        return matchNormalUserCredentials
     }
 
     private fun matchOrganizerUserCredentials(email: String, password: String): Boolean{
-        var validEmail: String = "organizer@gmail.com"
-        var validPassword: String = "passw0rd"
-        val matchNormalUserCredentials = email.equals(validEmail) && password.equals(validPassword);
-        return matchNormalUserCredentials;
+        val validEmail = "organizer@gmail.com"
+        val validPassword = "passw0rd"
+        val matchNormalUserCredentials = email == validEmail && password == validPassword
+        return matchNormalUserCredentials
     }
 
     override suspend fun login(email: String, password: String, context: Context): String? {
-        var errorMsg: String? = null;
-        var matchNormalUser = matchNormalUserCredentials(email, password)
-        var matchOrganizerUser = matchOrganizerUserCredentials(email, password)
-
-        if (matchNormalUser) {
-            setUser(
-                User(
-                    name = "Usuario Normal",
-                    email = email,
-                    type = UserTypes.NORMAL,
-                    jwt = ""
-                )
+        var errorMsg: String? = null
+        val matchNormalUser = matchNormalUserCredentials(email, password)
+        val matchOrganizerUser = matchOrganizerUserCredentials(email, password)
+        if(matchNormalUser){
+            this.user = User(
+                name = "Usuario Normal",
+                email = email,
+                type = UserTypes.NORMAL,
+                jwt = ""
             )
-        } else if (matchOrganizerUser) {
-            setUser(
-                User(
-                    name = "Usuario Organizador",
-                    email = email,
-                    type = UserTypes.ORGANIZER,
-                    jwt = ""
-                )
+        }else if(matchOrganizerUser){
+            this.user = User(
+                name = "Usuario Organizador",
+                email = email,
+                type = UserTypes.ORGANIZER,
+                jwt = ""
             )
-        } else {
+        }
+        else{
             errorMsg = context.getString(R.string.error_invalid_credentials)
         }
 
@@ -63,7 +56,7 @@ object MockDataService : DataServiceInterface {
     override suspend fun signup(name: String, email: String, password: String, context: Context): String? {
         var errorMsg: String? = null
 
-        // Validate email format
+        // Validate email format using a simple regex
         val emailRegex = "^[A-Za-z0-9+_.-]+@(.+)\$".toRegex()
         if (!emailRegex.matches(email)) {
             errorMsg = context.getString(R.string.error_invalid_email_format)
@@ -74,18 +67,15 @@ object MockDataService : DataServiceInterface {
             errorMsg = context.getString(R.string.error_password_length)
         }
 
-        // Create the user if validations pass
+        // If no validation errors, create the user
         if (errorMsg == null) {
-            setUser(
-                User(
-                    name = name,
-                    email = email,
-                    type = UserTypes.ORGANIZER,
-                    jwt = ""
-                )
+            this.user = User(
+                name = name,
+                email = email,
+                type = UserTypes.ORGANIZER,
+                jwt = ""
             )
         }
-
         return errorMsg
     }
 
@@ -232,9 +222,5 @@ object MockDataService : DataServiceInterface {
                 roomHasSeatDistribution = true
             )
         )
-    }
-
-    override fun getUser(): User? {
-        return this.user;
     }
 }
