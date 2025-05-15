@@ -3,6 +3,7 @@ package com.example.eventology.data.services
 import android.content.Context
 import com.example.eventology.data.models.Event
 import com.example.eventology.data.models.Seat
+import com.example.eventology.data.models.Ticket
 import com.example.eventology.data.models.User
 
 /**
@@ -85,4 +86,11 @@ interface DataServiceInterface {
      * @return `true` if all bookings succeeded, or `false` if any failed.
      */
     suspend fun bookSeats(eventId: Int, seatIds: List<Int>): Boolean
+
+    /**
+     * Retrieves the list of tickets (reserved seats) for the authenticated user.
+     *
+     * @return A list of tickets, each containing seat, event, and status information.
+     */
+    suspend fun getMyTickets(): List<Ticket>
 }

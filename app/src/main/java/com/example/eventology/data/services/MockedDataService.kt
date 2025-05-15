@@ -1,11 +1,12 @@
 package com.example.eventology.data.services
 
 import android.content.Context
-import com.example.eventology.constants.UserTypes
-import com.example.eventology.data.models.Event
-import com.example.eventology.data.models.User
 import com.example.eventology.R
 import com.example.eventology.data.models.Seat
+import com.example.eventology.data.models.User
+import com.example.eventology.data.models.Event
+import com.example.eventology.data.models.Ticket
+import com.example.eventology.constants.UserTypes
 
 object MockDataService : DataServiceInterface {
     private var user: User? = null
@@ -14,14 +15,14 @@ object MockDataService : DataServiceInterface {
         return this.user
     }
 
-    private fun matchNormalUserCredentials(email: String, password: String): Boolean{
+    private fun matchNormalUserCredentials(email: String, password: String): Boolean {
         val validEmail = "normal@gmail.com"
         val validPassword = "passw0rd"
         val matchNormalUserCredentials = email == validEmail && password == validPassword
         return matchNormalUserCredentials
     }
 
-    private fun matchOrganizerUserCredentials(email: String, password: String): Boolean{
+    private fun matchOrganizerUserCredentials(email: String, password: String): Boolean {
         val validEmail = "organizer@gmail.com"
         val validPassword = "passw0rd"
         val matchNormalUserCredentials = email == validEmail && password == validPassword
@@ -32,29 +33,33 @@ object MockDataService : DataServiceInterface {
         var errorMsg: String? = null
         val matchNormalUser = matchNormalUserCredentials(email, password)
         val matchOrganizerUser = matchOrganizerUserCredentials(email, password)
-        if(matchNormalUser){
+        if (matchNormalUser) {
             this.user = User(
                 name = "Usuario Normal",
                 email = email,
                 type = UserTypes.NORMAL,
                 jwt = ""
             )
-        }else if(matchOrganizerUser){
+        } else if (matchOrganizerUser) {
             this.user = User(
                 name = "Usuario Organizador",
                 email = email,
                 type = UserTypes.ORGANIZER,
                 jwt = ""
             )
-        }
-        else{
+        } else {
             errorMsg = context.getString(R.string.error_invalid_credentials)
         }
 
         return errorMsg
     }
 
-    override suspend fun signup(name: String, email: String, password: String, context: Context): String? {
+    override suspend fun signup(
+        name: String,
+        email: String,
+        password: String,
+        context: Context
+    ): String? {
         var errorMsg: String? = null
 
         // Validate email format using a simple regex
@@ -251,5 +256,28 @@ object MockDataService : DataServiceInterface {
     override suspend fun bookSeats(eventId: Int, seatIds: List<Int>): Boolean {
         println("Booking mocked seats for event $eventId: $seatIds")
         return true
+    }
+
+    override suspend fun getMyTickets(): List<Ticket> {
+        val events = getAllEvents()
+
+        return listOf(
+            Ticket(
+                id = 1,
+                eventName = events.first { it.id == 1 }.name,
+                seatRow = "A",
+                seatNumber = 1,
+                reservationDate = "2025-05-15T09:00:00",
+                status = "reserved"
+            ),
+            Ticket(
+                id = 2,
+                eventName = events.first { it.id == 2 }.name,
+                seatRow = "B",
+                seatNumber = 1,
+                reservationDate = "2025-05-15T10:30:00",
+                status = "reserved"
+            )
+        )
     }
 }

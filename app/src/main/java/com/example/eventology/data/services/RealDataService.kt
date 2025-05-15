@@ -6,6 +6,7 @@ import com.example.eventology.data.models.Event
 import com.example.eventology.data.models.Seat
 import com.example.eventology.data.models.User
 import com.example.eventology.constants.UserTypes
+import com.example.eventology.data.models.Ticket
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
@@ -273,6 +274,45 @@ object RealDataService : DataServiceInterface {
         } catch (e: Exception) {
             e.printStackTrace()
             false
+        }
+    }
+
+    /**
+     * Retrieves the list of tickets booked by the current authenticated user.
+     *
+     * @return A list of [Ticket] objects.
+     */
+    override suspend fun getMyTickets(): List<Ticket> = withContext(Dispatchers.IO) {
+        try {
+            val url = URL("https://10.0.1.223/api/tickets/my")
+            val connection = url.openConnection() as HttpURLConnection
+            connection.setRequestProperty("Authorization", "Bearer \${user?.jwt}")
+            connection.requestMethod = "GET"
+
+            val response = connection.inputStream.bufferedReader().readText()
+            val ticketsJson = JSONArray(response)
+            val tickets = mutableListOf<Ticket>()
+
+            for (i in 0 until ticketsJson.length()) {
+                val t = ticketsJson.getJSONObject(i)
+                val seat = t.optJSONObject("seat")
+
+                tickets.add(
+                    Ticket(
+                        id = t.getInt("id"),
+                        eventName = t.getString("eventName"),
+                        seatRow = seat?.optString("row_number"),
+                        seatNumber = seat?.optInt("seat_number"),
+                        reservationDate = t.getString("reservation"),
+                        status = t.getString("status")
+                    )
+                )
+            }
+
+            tickets
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emptyList()
         }
     }
 }

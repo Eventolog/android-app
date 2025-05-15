@@ -7,6 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.eventology.data.models.Seat
 import com.example.eventology.adapters.TicketsAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.eventology.adapters.MyTicketsAdapter
 import com.example.eventology.data.services.ApiServiceProvider
 import com.example.eventology.databinding.FragmentPageTicketsBinding
 
@@ -28,23 +29,30 @@ class TicketsPageFragment(private val authenticatedLayoutFragment: Authenticated
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val currentUser = ApiServiceProvider.getDataService().getUser()
-
-        // Aquí assumim que hi ha un eventId actiu o seleccionat (hardcoded per ara)
-        val eventId = 1
-
         lifecycleScope.launch {
             try {
-                val seats: List<Seat> = ApiServiceProvider.getDataService().getFreeSeats(eventId)
+                val tickets = ApiServiceProvider.getDataService().getMyTickets()
+
+                binding.ticketsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+                binding.ticketsRecyclerView.adapter = MyTicketsAdapter(tickets) { ticket ->
+                    // Quan cliques un tiquet, mostres els seients per aquell event
+                    showSeatsForEvent(ticket.id)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun showSeatsForEvent(eventId: Int) {
+        lifecycleScope.launch {
+            try {
+                val seats = ApiServiceProvider.getDataService().getFreeSeats(eventId)
 
                 binding.ticketsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
                 binding.ticketsRecyclerView.adapter = TicketsAdapter(seats) { selectedSeats ->
-                    lifecycleScope.launch {
-                        val result = ApiServiceProvider.getDataService().bookSeats(eventId, selectedSeats.map { it.id })
-                        if (result) {
-                            authenticatedLayoutFragment.loadPage(TicketsPageFragment(authenticatedLayoutFragment))
-                        }
-                    }
+                    // Tractament de les butaques seleccionades
+                    println("Seleccionades: $selectedSeats")
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
