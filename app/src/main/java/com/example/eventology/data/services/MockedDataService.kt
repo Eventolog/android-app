@@ -5,6 +5,7 @@ import com.example.eventology.constants.UserTypes
 import com.example.eventology.data.models.Event
 import com.example.eventology.data.models.User
 import com.example.eventology.R
+import com.example.eventology.data.models.Seat
 
 object MockDataService : DataServiceInterface {
     private var user: User? = null
@@ -222,5 +223,33 @@ object MockDataService : DataServiceInterface {
                 roomHasSeatDistribution = true
             )
         )
+    }
+
+    override suspend fun getReservedSeats(eventId: Int): List<String> {
+        return listOf("A1", "A2", "B3")
+    }
+
+    override suspend fun reserveSeats(eventId: Int, seatIds: List<String>): Boolean {
+        println("Reservant butaques MOCK: $seatIds per a l’event $eventId")
+        return true
+    }
+
+    override suspend fun getFreeSeats(eventId: Int): List<Seat> {
+        // Simulació senzilla d’una sala amb 5 butaques
+        val allSeats = listOf(
+            Seat(1, "A", 1),
+            Seat(2, "A", 2),
+            Seat(3, "A", 3),
+            Seat(4, "B", 1),
+            Seat(5, "B", 2),
+        )
+
+        val reservedSeatIds = setOf(2, 5)
+        return allSeats.filter { it.id !in reservedSeatIds }
+    }
+
+    override suspend fun bookSeats(eventId: Int, seatIds: List<Int>): Boolean {
+        println("Booking mocked seats for event $eventId: $seatIds")
+        return true
     }
 }
