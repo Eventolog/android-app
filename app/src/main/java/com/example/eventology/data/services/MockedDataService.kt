@@ -264,6 +264,7 @@ object MockDataService : DataServiceInterface {
         return listOf(
             Ticket(
                 id = 1,
+                eventId = 2,
                 eventName = events.first { it.id == 1 }.name,
                 seatRow = "A",
                 seatNumber = 1,
@@ -272,6 +273,7 @@ object MockDataService : DataServiceInterface {
             ),
             Ticket(
                 id = 2,
+                eventId = 2,
                 eventName = events.first { it.id == 2 }.name,
                 seatRow = "B",
                 seatNumber = 1,
