@@ -4,26 +4,23 @@ import android.view.*
 import android.os.Bundle
 import kotlinx.coroutines.launch
 import androidx.lifecycle.lifecycleScope
-import com.example.eventology.adapters.MyTicketsAdapter
+import com.example.eventology.adapters.TicketsAdapter
 import com.example.eventology.data.services.ApiServiceProvider
 import com.example.eventology.databinding.FragmentPageTicketsBinding
 import androidx.recyclerview.widget.LinearLayoutManager
 
 /**
- * Fragment to show the list of user tickets.
+ * Fragment to show available seats for a specific event.
  */
-class TicketsPageFragment(
-    private val authenticatedLayoutFragment: AuthenticatedLayoutFragment
-) : PageFragments(2, authenticatedLayoutFragment) {
+class SeatsForEventFragment(
+    private val authenticatedLayoutFragment: AuthenticatedLayoutFragment,
+    private val eventId: Int
+) : PageFragments(3, authenticatedLayoutFragment) {
 
     private var _binding: FragmentPageTicketsBinding? = null
     private val binding get() = _binding!!
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentPageTicketsBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -33,14 +30,11 @@ class TicketsPageFragment(
 
         lifecycleScope.launch {
             try {
-                val tickets = ApiServiceProvider.getDataService().getMyTickets()
+                val seats = ApiServiceProvider.getDataService().getFreeSeats(eventId)
 
                 binding.ticketsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-                binding.ticketsRecyclerView.adapter = MyTicketsAdapter(tickets) { ticket ->
-
-                    authenticatedLayoutFragment.loadPage(
-                        SeatsForEventFragment(authenticatedLayoutFragment, ticket.id)
-                    )
+                binding.ticketsRecyclerView.adapter = TicketsAdapter(seats) { selectedSeats ->
+                    println("Seleccionades: $selectedSeats")
                 }
             } catch (e: Exception) {
                 e.printStackTrace()

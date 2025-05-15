@@ -35,7 +35,7 @@ object RealDataService : DataServiceInterface {
      */
     override suspend fun getReservedSeats(eventId: Int): List<String> = withContext(Dispatchers.IO) {
         try {
-            val url = URL("https://10.0.1.223/api/$eventId/getFreeSeats")
+            val url = URL("https://10.0.1.223:49781/api/$eventId/getFreeSeats")
             val connection = url.openConnection() as HttpURLConnection
             connection.setRequestProperty("Authorization", "Bearer ${user?.jwt}")
             connection.requestMethod = "GET"
@@ -67,7 +67,7 @@ object RealDataService : DataServiceInterface {
     override suspend fun reserveSeats(eventId: Int, seatIds: List<String>): Boolean = withContext(Dispatchers.IO) {
         try {
             for (seatId in seatIds) {
-                val url = URL("https://10.0.1.223/api/$eventId/bookSeat")
+                val url = URL("https://10.0.1.223:49781/api/$eventId/bookSeat")
                 val connection = url.openConnection() as HttpURLConnection
                 connection.setRequestProperty("Authorization", "Bearer ${user?.jwt}")
                 connection.setRequestProperty("Content-Type", "application/json")
@@ -98,7 +98,7 @@ object RealDataService : DataServiceInterface {
      */
     override suspend fun login(email: String, password: String, context: Context): String? = withContext(Dispatchers.IO) {
         try {
-            val url = URL("https://10.0.1.223/api/user/login")
+            val url = URL("https://10.0.1.223:49781/api/user/login")
             val connection = url.openConnection() as HttpURLConnection
             connection.requestMethod = "POST"
             connection.setRequestProperty("Content-Type", "application/json")
@@ -150,7 +150,7 @@ object RealDataService : DataServiceInterface {
      */
     override suspend fun signup(name: String, email: String, password: String, context: Context): String? = withContext(Dispatchers.IO) {
         try {
-            val url = URL("https://10.0.1.223/api/user/signup")
+            val url = URL("https://10.0.1.223:49781/api/user/signup")
             val connection = url.openConnection() as HttpURLConnection
             connection.requestMethod = "POST"
             connection.setRequestProperty("Content-Type", "application/json")
@@ -181,7 +181,7 @@ object RealDataService : DataServiceInterface {
      */
     override suspend fun getAllEvents(): List<Event> = withContext(Dispatchers.IO) {
         try {
-            val url = URL("https://10.0.1.223/api/events")
+            val url = URL("https://10.0.1.223:49781/api/events")
             val connection = url.openConnection() as HttpURLConnection
             connection.setRequestProperty("Authorization", "Bearer ${user?.jwt}")
             connection.requestMethod = "GET"
@@ -225,7 +225,7 @@ object RealDataService : DataServiceInterface {
      */
     override suspend fun getFreeSeats(eventId: Int): List<Seat> = withContext(Dispatchers.IO) {
         try {
-            val url = URL("https://10.0.1.223/api/$eventId/getFreeSeats")
+            val url = URL("https://10.0.1.223:49781/api/$eventId/getFreeSeats")
             val connection = url.openConnection() as HttpURLConnection
             connection.setRequestProperty("Authorization", "Bearer ${user?.jwt}")
             connection.requestMethod = "GET"
@@ -256,7 +256,7 @@ object RealDataService : DataServiceInterface {
     override suspend fun bookSeats(eventId: Int, seatIds: List<Int>): Boolean = withContext(Dispatchers.IO) {
         try {
             seatIds.forEach { seatId ->
-                val url = URL("https://10.0.1.223/api/$eventId/bookSeat")
+                val url = URL("https://10.0.1.223:49781/api/$eventId/bookSeat")
                 val connection = url.openConnection() as HttpURLConnection
                 connection.requestMethod = "POST"
                 connection.setRequestProperty("Authorization", "Bearer ${user?.jwt}")
@@ -284,7 +284,7 @@ object RealDataService : DataServiceInterface {
      */
     override suspend fun getMyTickets(): List<Ticket> = withContext(Dispatchers.IO) {
         try {
-            val url = URL("https://10.0.1.223/api/tickets/my")
+            val url = URL("https://10.0.1.223:49781/api/tickets/my")
             val connection = url.openConnection() as HttpURLConnection
             connection.setRequestProperty("Authorization", "Bearer \${user?.jwt}")
             connection.requestMethod = "GET"
