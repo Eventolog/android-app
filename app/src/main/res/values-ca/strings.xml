@@ -22,4 +22,5 @@
     <string name="duration" >Duració</string>
     <string name="buyTicket">Comprar entrades</string>
     <string name="tickets">Entrades</string>
+    <string name="updateEventImage" >Actualitzar imatge del event</string>
 </resources>
