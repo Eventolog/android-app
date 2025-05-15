@@ -20,6 +20,9 @@ class AuthenticatedLayoutFragment : Fragment() {
     private val pageHistory = Stack<PageFragments>()
     var currentPage: PageFragments? = null;
 
+    private var incidencesClickCount = 0
+    private var lastIncidencesClickTime = 0L
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
