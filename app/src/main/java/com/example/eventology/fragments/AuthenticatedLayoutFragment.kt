@@ -6,12 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.eventology.R
+import java.util.Stack
 
 /**
  * Main frame that contains the bottom navbar and manages
  * main fragment display on page change
  */
 class AuthenticatedLayoutFragment : Fragment() {
+    private val pageHistory = Stack<PageFragments>()
     var currentPage: PageFragments? = null;
 
     override fun onCreateView(
@@ -19,6 +21,10 @@ class AuthenticatedLayoutFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View = inflater.inflate(R.layout.fragment_main, container, false)
 
+    /**
+     * Navigate to initial page and add logic to [NavbarFragment] to
+     * peroperly handle pages navigation
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // Cargar pantalla inicial
         loadPage(EventsListPageFragment(this))
@@ -34,7 +40,17 @@ class AuthenticatedLayoutFragment : Fragment() {
         }
     }
 
-    fun loadPage(fragment: PageFragments) {
+    /**
+     * Navigate to a fragment with animation depending of its page order defined
+     * in the class [PageFragments] and add the previous page to the page history
+     *
+     * @param fragment fragment page to be loaded
+     * @param recordHistory store the previous fragment to the one passed as param on the pageHistory
+     */
+    fun loadPage(fragment: PageFragments, recordHistory: Boolean = true) {
+        if (recordHistory && currentPage != null) {
+            pageHistory.push(currentPage!!)
+        }
         if(currentPage != null){
             if(currentPage!!.getPageOrder() > fragment.getPageOrder()){
                 childFragmentManager.beginTransaction()
@@ -71,5 +87,15 @@ class AuthenticatedLayoutFragment : Fragment() {
         }
 
         currentPage = fragment
+    }
+
+    /**
+     * Navigate to previous page fragment
+     */
+    fun goBack() {
+        if (pageHistory.isNotEmpty()) {
+            val previous = pageHistory.pop()
+            loadPage(previous, recordHistory = false)
+        }
     }
 }

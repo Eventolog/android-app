@@ -2,6 +2,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.example.eventology.R
 import com.example.eventology.constants.UserTypes
@@ -27,20 +28,32 @@ class EventDetailPageFragment(private val event: Event, private val authenticate
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Display event details
+        // name
         binding.eventDetailName.text = event.name
+
+        // desc
         binding.eventDetailDescription.text = event.description
+
+        // date and duration
         var readeableDate = DateUtils.toReadableDate(event.startTime);
         var readeableDuration = DateUtils.getReadableDuration(event.startTime, event.endTime);
         var durationTxt = context?.getString(R.string.duration)
         binding.eventDetailTime.text = "${readeableDate} · ${durationTxt}: ${readeableDuration}"
+
+        // bottom text and redirection depend of the user role
         var role = ApiServiceProvider.getDataService().getUser()?.type ?: UserTypes.NORMAL
         if(role.equals(UserTypes.NORMAL)){
             binding.actionButton.setText(R.string.buyTicket)
         }else if (role.equals(UserTypes.ORGANIZER)){
 
         }
-        // Optionally handle other event details like image or location
+        // go previos page logic
+        binding.root.findViewById<ImageView>(R.id.goBackBtn).setOnClickListener {
+            authenticatedLayoutFragment.goBack()
+        }
+
+
+        // TODO: handle other event details like image
         // Example: Load event image if available
         // binding.eventDetailImage.setImageResource(event.imageResId) // If the event has an image
     }

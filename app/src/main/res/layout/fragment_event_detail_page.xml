@@ -5,14 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include
+        layout="@layout/top_bar_go_previous_page"
+        android:id="@+id/pageTopBar"
+        />
+
     <!-- ImageView at the top -->
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="300dp"
         android:src="@drawable/default_event_deail_big_image"
         android:scaleType="centerCrop"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@+id/pageTopBar"/>
 
     <!-- Container for text items (Event Name, Description, Time, Duration) -->
     <LinearLayout
