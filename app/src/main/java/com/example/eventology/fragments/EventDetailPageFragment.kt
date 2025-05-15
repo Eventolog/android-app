@@ -46,7 +46,7 @@ class EventDetailPageFragment(
         binding.eventDetailTime.text = "$readableDate · $durationTxt: $readableDuration"
 
         // user role
-        val role = ApiServiceProvider.getDataService().getUser()?.type ?: UserTypes.ORGANIZER
+        val role = ApiServiceProvider.getDataService().getUser()?.type ?: UserTypes.NORMAL
 
         if (role == UserTypes.NORMAL) {
             binding.actionButton.setText(R.string.buyTicket)
