@@ -1,30 +1,41 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:padding="12dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="5dp">
 
+    <!-- Títol de l'event en vermell -->
     <TextView
         android:id="@+id/ticketEventName"
-        android:text="Nom de l’event"
-        android:textStyle="bold"
-        android:textSize="18sp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="Nom de l’event"
+        android:textColor="@color/primary"
+        android:textSize="@dimen/text_size_lg"
+        android:textStyle="bold" />
 
+    <!-- Informació de seient -->
     <TextView
         android:id="@+id/ticketSeat"
-        android:text="Fila A, Seient 3"
-        android:textSize="16sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="4dp"/>
+        android:paddingTop="4dp"
+        android:text="Fila A, Seient 3"
+        android:textSize="@dimen/text_size_md" />
 
+    <!-- Data de reserva -->
     <TextView
         android:id="@+id/ticketDate"
-        android:text="Reserva: 2025-05-15"
-        android:textSize="14sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="4dp"/>
+        android:paddingTop="4dp"
+        android:text="Reserva: 2025-05-15"
+        android:textSize="16sp" />
+
+    <!-- Línia vermella separadora -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/primary" />
 </LinearLayout>
