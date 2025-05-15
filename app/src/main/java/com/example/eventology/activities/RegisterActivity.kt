@@ -29,7 +29,7 @@ class RegisterActivity : BaseActivity() {
         }
     }
 
-    private fun handleRegister(){
+    private fun handleRegister() {
         println("start register")
         val context: Context = this.baseContext
 
