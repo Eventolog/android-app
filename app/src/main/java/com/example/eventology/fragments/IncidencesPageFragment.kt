@@ -14,11 +14,8 @@ import kotlinx.coroutines.launch
 
 /**
  * Fragment that displays a list of user-related incidences.
- *
- * A title and "Add Incidence" button are shown at the top.
- * The incidences are displayed in a vertical scrollable list using a RecyclerView.
- *
- * @property authenticatedLayoutFragment Used for communicating or navigating from this fragment.
+ **
+ * @property authenticatedLayoutFragment Used for navigating from this fragment.
  */
 class IncidencesPageFragment(
     private val authenticatedLayoutFragment: AuthenticatedLayoutFragment
@@ -37,7 +34,8 @@ class IncidencesPageFragment(
 
         // Setup Add Incidence button click
         binding.addIncidenceButton.setOnClickListener {
-            Log.d("IncidencesPageFragment", "Add Incidence clicked")
+            var addIncidenceFragment = AddIncidenceFragment(authenticatedLayoutFragment)
+            authenticatedLayoutFragment.loadPage(addIncidenceFragment)
         }
 
         // Fetch incidences and set up adapter
