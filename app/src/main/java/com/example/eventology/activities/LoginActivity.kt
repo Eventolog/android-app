@@ -35,6 +35,26 @@ class LoginActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Revisa si ja està guardat l'usuari
+        val prefs = getSharedPreferences("session", Context.MODE_PRIVATE)
+        val savedEmail = prefs.getString("email", null)
+        val savedPassword = prefs.getString("password", null)
+
+        if (savedEmail != null && savedPassword != null) {
+            // Inicia sessió automàticament
+            lifecycleScope.launch {
+                val errMsg = ApiServiceProvider.getDataService().login(savedEmail, savedPassword, this@LoginActivity)
+                if (errMsg == null) {
+                    val intent = Intent(this@LoginActivity, AuthenticatedActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+            }
+        }
+
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         if (userAlreadyLoggedIn()) {
             val intent = Intent(this, AuthenticatedActivity::class.java)
             startActivity(intent)
@@ -58,12 +78,10 @@ class LoginActivity : BaseActivity() {
         }
     }
 
-    private fun handleLoginClick(){
-        println("start login")
-        val context: Context = this.baseContext
+    private fun handleLoginClick() {
+        val context: Context = this
 
         lifecycleScope.launch {
-            println("lifecycle scope launch kotlin")
             val apiService: DataServiceInterface = ApiServiceProvider.getDataService()
             val email = binding.emailEditText.text?.toString() ?: ""
             val password = binding.passwordEditText.text?.toString() ?: ""
