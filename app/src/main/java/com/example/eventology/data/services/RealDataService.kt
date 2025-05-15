@@ -300,6 +300,7 @@ object RealDataService : DataServiceInterface {
                 tickets.add(
                     Ticket(
                         id = t.getInt("id"),
+                        eventId = t.getInt("eventId"),
                         eventName = t.getString("eventName"),
                         seatRow = seat?.optString("row_number"),
                         seatNumber = seat?.optInt("seat_number"),
