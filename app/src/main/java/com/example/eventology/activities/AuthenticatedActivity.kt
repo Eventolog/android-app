@@ -14,6 +14,7 @@ class AuthenticatedActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_authenticated)
 
+        // start AuthenticatedLayoutFragment
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .setCustomAnimations(
