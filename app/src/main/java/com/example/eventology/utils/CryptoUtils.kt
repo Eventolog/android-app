@@ -1,4 +1,4 @@
-package com.example.eventology.tools
+package com.example.eventology.utils
 
 import android.util.Base64
 import javax.crypto.Cipher

@@ -240,17 +240,23 @@ object MockDataService : DataServiceInterface {
     }
 
     override suspend fun getFreeSeats(eventId: Int): List<Seat> {
-        // Simulació senzilla d’una sala amb 5 butaques
-        val allSeats = listOf(
-            Seat(1, "A", 1),
-            Seat(2, "A", 2),
-            Seat(3, "A", 3),
-            Seat(4, "B", 1),
-            Seat(5, "B", 2),
-        )
-
-        val reservedSeatIds = setOf(2, 5)
-        return allSeats.filter { it.id !in reservedSeatIds }
+        return when (eventId) {
+            1 -> listOf(
+                Seat(1, "A", 1),
+                Seat(2, "A", 2),
+                Seat(3, "B", 1)
+            )
+            2 -> listOf(
+                Seat(4, "A", 1),
+                Seat(5, "B", 2)
+            )
+            3 -> listOf(
+                Seat(6, "C", 1),
+                Seat(7, "C", 2),
+                Seat(8, "C", 3)
+            )
+            else -> emptyList()
+        }
     }
 
     override suspend fun bookSeats(eventId: Int, seatIds: List<Int>): Boolean {

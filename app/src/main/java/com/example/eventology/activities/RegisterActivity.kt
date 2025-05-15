@@ -29,21 +29,52 @@ class RegisterActivity : BaseActivity() {
         }
     }
 
-    private fun handleRegister(){
+    private fun handleRegister() {
         println("start register")
-        var context: Context = this.baseContext
+        val context: Context = this.baseContext
 
         lifecycleScope.launch {
-            println("lifecycle scope launch kotlin")
-            var apiService: DataServiceInterface = ApiServiceProvider.getDataService()
-            var name = binding.nameEditText.text?.toString() ?: ""
-            var email = binding.emailEditText.text?.toString() ?: ""
-            var password = binding.passwordEditText.text?.toString() ?: ""
+            val apiService: DataServiceInterface = ApiServiceProvider.getDataService()
+            val name = binding.nameEditText.text?.toString() ?: ""
+            val email = binding.emailEditText.text?.toString() ?: ""
+            val password = binding.passwordEditText.text?.toString() ?: ""
 
-            var errMsg = apiService.signup(name, email, password, context)
+            val errMsg = apiService.signup(name, email, password, context)
             println("error msg: $errMsg")
             binding.errorMessageTextView.text = errMsg
             binding.errorMessageTextView.setPadding(48, 24, 48, 24)
+
+            if (errMsg == null) {
+                // Guarda l'usuari a SharedPreferences
+                val prefs = getSharedPreferences("session", Context.MODE_PRIVATE)
+                prefs.edit()
+                    .putString("email", email)
+                    .putString("password", password)
+                    .apply()
+
+                // Inicia la pantalla autenticada
+                val intent = Intent(this@RegisterActivity, AuthenticatedActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
         }
     }
+
+//    private fun handleRegister(){
+//        println("start register")
+//        var context: Context = this.baseContext
+//
+//        lifecycleScope.launch {
+//            println("lifecycle scope launch kotlin")
+//            var apiService: DataServiceInterface = ApiServiceProvider.getDataService()
+//            var name = binding.nameEditText.text?.toString() ?: ""
+//            var email = binding.emailEditText.text?.toString() ?: ""
+//            var password = binding.passwordEditText.text?.toString() ?: ""
+//
+//            var errMsg = apiService.signup(name, email, password, context)
+//            println("error msg: $errMsg")
+//            binding.errorMessageTextView.text = errMsg
+//            binding.errorMessageTextView.setPadding(48, 24, 48, 24)
+//        }
+//    }
 }

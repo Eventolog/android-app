@@ -1,5 +1,7 @@
 package com.example.eventology.fragments
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.eventology.R
+import com.example.eventology.activities.LoginActivity
 import java.util.Stack
 
 /**
@@ -17,6 +20,9 @@ class AuthenticatedLayoutFragment : Fragment() {
     private val pageHistory = Stack<PageFragments>()
     var currentPage: PageFragments? = null;
 
+    private var incidencesClickCount = 0
+    private var lastIncidencesClickTime = 0L
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -24,7 +30,7 @@ class AuthenticatedLayoutFragment : Fragment() {
 
     /**
      * Navigate to initial page and add logic to [NavbarFragment] to
-     * peroperly handle pages navigation
+     * properly handle pages navigation
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // Cargar pantalla inicial
@@ -34,9 +40,29 @@ class AuthenticatedLayoutFragment : Fragment() {
 
         navbarFragment.setOnNavigationItemSelectedListener { itemId ->
             when (itemId) {
-                R.id.nav_tickets -> loadPage(TicketsPageFragment(this))
-                R.id.nav_events -> loadPage(EventsListPageFragment(this))
-                R.id.nav_incidences -> loadPage(IncidencesPageFragment(this))
+                R.id.nav_tickets -> {
+                    incidencesClickCount = 0
+                    loadPage(TicketsPageFragment(this))
+                }
+                R.id.nav_events -> {
+                    incidencesClickCount = 0
+                    loadPage(EventsListPageFragment(this))
+                }
+                R.id.nav_incidences -> {
+                    val now = System.currentTimeMillis()
+                    if (now - lastIncidencesClickTime > 2000) {
+                        incidencesClickCount = 0
+                    }
+                    incidencesClickCount++
+                    lastIncidencesClickTime = now
+
+                    if (incidencesClickCount >= 3) {
+                        incidencesClickCount = 0
+                        performLogout()
+                    } else {
+                        loadPage(IncidencesPageFragment(this))
+                    }
+                }
             }
         }
     }
@@ -89,7 +115,7 @@ class AuthenticatedLayoutFragment : Fragment() {
      *
      * @param transaction the fragment transaction to set the animation
      */
-    fun setAnimationToFragmentTransaction(
+    private fun setAnimationToFragmentTransaction(
         newFragment: PageFragments,
         transaction: FragmentTransaction){
         if(currentPage != null){
@@ -120,6 +146,16 @@ class AuthenticatedLayoutFragment : Fragment() {
             )
 
         }
+    }
+
+    private fun performLogout() {
+        val prefs = requireActivity().getSharedPreferences("session", Context.MODE_PRIVATE)
+        prefs.edit().remove("token").apply()
+
+        val intent = Intent(requireContext(), LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        requireActivity().finish()
     }
 
     /**
