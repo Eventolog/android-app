@@ -3,9 +3,9 @@ package com.example.eventology.adapters
 import android.view.*
 import android.widget.CheckBox
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
 import com.example.eventology.R
 import com.example.eventology.data.models.Seat
+import androidx.recyclerview.widget.RecyclerView
 
 class TicketsAdapter(
     private val seats: List<Seat>,
@@ -34,6 +34,7 @@ class TicketsAdapter(
         holder.seatCheckBox.setOnCheckedChangeListener(null)
         holder.seatCheckBox.isChecked = selectedSeats.contains(seat)
 
+        // 1. Gestiona clic directe sobre el CheckBox
         holder.seatCheckBox.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 selectedSeats.add(seat)
@@ -43,6 +44,13 @@ class TicketsAdapter(
             onSelectionChanged(selectedSeats.toList())
         }
 
+        // 2. Clic a tota la línia → canvia el CheckBox
+        holder.itemView.setOnClickListener {
+            val newChecked = !holder.seatCheckBox.isChecked
+            holder.seatCheckBox.isChecked = newChecked
+        }
+
+        // 3. Alterna color de text
         val context = holder.itemView.context
         val textColor = if (position % 2 == 0) {
             context.getColor(R.color.row_even)
@@ -51,5 +59,4 @@ class TicketsAdapter(
         }
         holder.seatLabel.setTextColor(textColor)
     }
-
 }
