@@ -8,7 +8,6 @@ import com.example.eventology.R
 import kotlinx.coroutines.launch
 import android.view.LayoutInflater
 import androidx.lifecycle.lifecycleScope
-import com.example.eventology.adapters.TicketsAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.eventology.data.services.ApiServiceProvider
 import com.example.eventology.databinding.FragmentPageTicketsBinding
@@ -26,32 +25,32 @@ class SelectSeatFragment(
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        lifecycleScope.launch {
-            try {
-                val seats = ApiServiceProvider.getDataService().getFreeSeats(eventId)
-
-                binding.ticketsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-                binding.ticketsRecyclerView.adapter = TicketsAdapter(seats) { selectedSeats ->
-                    if (selectedSeats.isNotEmpty()) {
-                        lifecycleScope.launch {
-                            try {
-                                ApiServiceProvider.getDataService().bookSeats(eventId, listOf(selectedSeats[0].id))
-                                Toast.makeText(context, R.string.ticket_reserved, Toast.LENGTH_SHORT).show()
-                                authenticatedLayoutFragment.goBack()
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-                            }
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-    }
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//
+//        lifecycleScope.launch {
+//            try {
+//                val seats = ApiServiceProvider.getDataService().getFreeSeats(eventId)
+//
+//                binding.ticketsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+//                binding.ticketsRecyclerView.adapter = TicketsAdapter(seats) { selectedSeats ->
+//                    if (selectedSeats.isNotEmpty()) {
+//                        lifecycleScope.launch {
+//                            try {
+//                                ApiServiceProvider.getDataService().bookSeats(eventId, listOf(selectedSeats[0].id))
+//                                Toast.makeText(context, R.string.ticket_reserved, Toast.LENGTH_SHORT).show()
+//                                authenticatedLayoutFragment.goBack()
+//                            } catch (e: Exception) {
+//                                e.printStackTrace()
+//                            }
+//                        }
+//                    }
+//                }
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//            }
+//        }
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()

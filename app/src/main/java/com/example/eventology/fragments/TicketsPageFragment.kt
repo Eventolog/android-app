@@ -2,12 +2,13 @@ package com.example.eventology.fragments
 
 import android.view.*
 import android.os.Bundle
+import android.widget.Toast
 import kotlinx.coroutines.launch
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.eventology.adapters.MyTicketsAdapter
 import com.example.eventology.data.services.ApiServiceProvider
 import com.example.eventology.databinding.FragmentPageTicketsBinding
-import androidx.recyclerview.widget.LinearLayoutManager
 
 /**
  * Fragment to show the list of user tickets.
@@ -34,13 +35,19 @@ class TicketsPageFragment(
         lifecycleScope.launch {
             try {
                 val tickets = ApiServiceProvider.getDataService().getMyTickets()
+                val allEvents = ApiServiceProvider.getDataService().getAllEvents()
 
                 binding.ticketsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
                 binding.ticketsRecyclerView.adapter = MyTicketsAdapter(tickets) { ticket ->
 
-                    authenticatedLayoutFragment.loadPage(
-                        SeatsForEventFragment(authenticatedLayoutFragment, ticket.id)
-                    )
+                    val event = allEvents.find { it.id == ticket.eventId }
+                    if (event != null) {
+                        authenticatedLayoutFragment.loadPage(
+                            EventDetailPageFragment(event, authenticatedLayoutFragment)
+                        )
+                    } else {
+                        Toast.makeText(requireContext(), "No s'ha trobat l'esdeveniment.", Toast.LENGTH_SHORT).show()
+                    }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
