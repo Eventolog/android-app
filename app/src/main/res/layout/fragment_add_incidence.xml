@@ -37,7 +37,7 @@
         android:id="@+id/addIncidenceButton"
         android:layout_width="126dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="220dp"
+        android:layout_marginLeft="200dp"
         android:backgroundTint="@color/primary"
         android:text="@string/add_incidence"
         android:textSize="@dimen/text_button"
