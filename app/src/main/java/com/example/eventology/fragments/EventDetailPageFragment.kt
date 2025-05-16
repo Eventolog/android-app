@@ -76,7 +76,11 @@ class EventDetailPageFragment(private val event: Event, private val authenticate
 
             binding.actionButton.setText(R.string.updateEventImage)
             binding.actionButton.setOnClickListener {
-                val options = arrayOf("Take Picture", "Upload Image", "Remove Image")
+                val options = arrayOf(
+                    getString(R.string.option_take_picture),
+                    getString(R.string.option_upload_image),
+                    getString(R.string.option_remove_image)
+                )
                 AlertDialog.Builder(requireContext())
                     .setTitle("Select Option")
                     .setItems(options) { _, which ->

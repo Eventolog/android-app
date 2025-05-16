@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:background="@drawable/chip_background_active"
+            android:background="@drawable/chip_background_event_active"
             android:textColor="@android:color/black"
             android:textSize="@dimen/text_size_sm"
             android:paddingHorizontal="16dp"

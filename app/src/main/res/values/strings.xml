@@ -26,4 +26,10 @@
     <string name="select_seat">Select Seat</string>
     <string name="incidences">Incidences</string>
     <string name="add_incidence">Add Incidence</string>
+    <string name="reason_empty">Reason cannot be empty</string>
+    <string name="reason_too_long">Reason cannot exceed 500 characters</string>
+    <string name="incidence_submitted">Incidence submitted</string>
+    <string name="option_take_picture">Take Picture</string>
+    <string name="option_upload_image">Upload Image</string>
+    <string name="option_remove_image">Remove Image</string>
 </resources>

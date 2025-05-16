@@ -27,4 +27,10 @@
     <string name="select_seat">Silla Seleccionada</string>
     <string name="incidences">Incidencias</string>
     <string name="add_incidence">Crear Incidenca</string>
+    <string name="reason_empty">La razón no puede estar vacía</string>
+    <string name="reason_too_long">La razón no puede exceder los 500 caracteres</string>
+    <string name="incidence_submitted">Incidencia enviada</string>
+    <string name="option_take_picture">Tomar foto</string>
+    <string name="option_upload_image">Subir imagen</string>
+    <string name="option_remove_image">Eliminar imagen</string>
 </resources>
