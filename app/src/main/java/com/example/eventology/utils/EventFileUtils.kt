@@ -3,6 +3,7 @@ package com.example.eventology.utils
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import java.io.File
 import java.io.FileOutputStream
 
@@ -41,4 +42,10 @@ object EventFileUtils {
             false
         }
     }
+
+    fun getBitmapFromUri(context: Context, uri: Uri): Bitmap {
+        val inputStream = context.contentResolver.openInputStream(uri)
+        return BitmapFactory.decodeStream(inputStream!!)
+    }
+
 }

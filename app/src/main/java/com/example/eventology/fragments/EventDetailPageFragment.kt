@@ -30,6 +30,7 @@ class EventDetailPageFragment(private val event: Event, authenticatedLayoutFragm
     private var _binding: FragmentEventDetailPageBinding? = null
     private val binding get() = _binding!!
     private lateinit var takePictureLauncher: ActivityResultLauncher<Intent>
+    private lateinit var pickImageLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -45,7 +46,8 @@ class EventDetailPageFragment(private val event: Event, authenticatedLayoutFragm
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-       initializeCamera()
+        initializeCamera()
+        initializeGalleryPicker()
 
         // load event image if exists
         val storedImage = EventFileUtils.loadEventImage(requireContext(), event.id.toString())
@@ -93,8 +95,6 @@ class EventDetailPageFragment(private val event: Event, authenticatedLayoutFragm
                     .show()
             }
         }
-
-
     }
 
     /**
@@ -118,6 +118,33 @@ class EventDetailPageFragment(private val event: Event, authenticatedLayoutFragm
     }
 
     /**
+     * Initializes the gallery picker launcher using Android's Activity Result API.
+     *
+     * This launcher opens the device's gallery and allows the user to pick an image.
+     * When the user selects an image, the function:
+     * - Retrieves the image URI from the intent result.
+     * - Converts it into a Bitmap using [EventFileUtils.getBitmapFromUri].
+     * - Displays it in [binding.imageView].
+     * - Saves the image locally using [EventFileUtils.saveEventImage] associated with the current event ID.
+     *
+     * This function must be called inside or before `onViewCreated`.
+     */
+    private fun initializeGalleryPicker() {
+        pickImageLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == Activity.RESULT_OK && result.data != null) {
+                val uri = result.data!!.data
+                uri?.let {
+                    val bitmap = EventFileUtils.getBitmapFromUri(requireContext(), it)
+                    binding.imageView.setImageBitmap(bitmap)
+                    EventFileUtils.saveEventImage(requireContext(), event.id.toString(), bitmap)
+                }
+            }
+        }
+    }
+
+    /**
      * Replace image by the default
      */
     private fun replaceImageToDefault(){
@@ -132,19 +159,20 @@ class EventDetailPageFragment(private val event: Event, authenticatedLayoutFragm
 
     /**
      * Opens the camera, take an image and if success load it into
-     * binding.imageView
+     * [binding.imageView]
      */
     private fun replaceImageFromCamera(){
         CameraHelper.checkPermissionAndOpenCamera(requireActivity())
     }
 
-
     /**
      * Opens the gallery, take an image and if success load it into
-     * binding.imageView
+     * [binding.imageView]
      */
     private fun replaceImageFromGallery(){
-
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        pickImageLauncher.launch(intent)
     }
 
     override fun onDestroyView() {
