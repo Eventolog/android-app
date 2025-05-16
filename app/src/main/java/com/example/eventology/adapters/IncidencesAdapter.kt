@@ -6,7 +6,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eventology.R
+import com.example.eventology.constants.IncidenceTypes
 import com.example.eventology.data.models.Incidence
+import kotlin.Int
 
 /**
  * Adapter to display a list of [Incidence] objects in a RecyclerView.
@@ -57,6 +59,15 @@ class IncidenceAdapter(private val incidences: List<Incidence>) :
         val incidence = incidences[position]
         holder.reasonTextView.text = incidence.reason
         holder.statusTextView.text = capitalizeWords(incidence.status)
+        var chipStyle: Int?
+
+        if(incidence.status.equals(IncidenceTypes.CLOSED)){
+            chipStyle = R.drawable.chip_background_incidence_finished
+        }else{
+            chipStyle = R.drawable.chip_background_incidence_pendent_open
+        }
+
+        holder.statusTextView.setBackgroundResource(chipStyle)
     }
 
     /**

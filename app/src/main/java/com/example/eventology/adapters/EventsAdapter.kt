@@ -47,11 +47,11 @@ class EventsAdapter(private val events: List<Event>, private val onEventClick: (
             val chipText: String
             val textColor: Int?
             if(isUpcoming){
-                chipStyle = R.drawable.chip_background_active
+                chipStyle = R.drawable.chip_background_event_active
                 chipText = context.getString(R.string.upcoming)
                 textColor = context.getColor(R.color.white)
             }else{
-                chipStyle = R.drawable.chip_background_inactive
+                chipStyle = R.drawable.chip_background_event_inactive
                 chipText = context.getString(R.string.finished)
                 textColor = context.getColor(R.color.black)
             }
