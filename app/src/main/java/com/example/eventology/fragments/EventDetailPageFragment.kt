@@ -70,7 +70,7 @@ class EventDetailPageFragment(private val event: Event, authenticatedLayoutFragm
         binding.eventDetailTime.text = "$readableDate · ${durationTxt}: $readableDuration"
 
         // bottom text and redirection depend of the user role
-        val role = ApiServiceProvider.getDataService().getUser()?.type ?: UserTypes.ORGANIZER
+        val role = ApiServiceProvider.getDataService().getUser()?.type ?: UserTypes.NORMAL
         if(role == UserTypes.NORMAL){
             binding.actionButton.setText(R.string.buyTicket)
         }else if (role == UserTypes.ORGANIZER) {
