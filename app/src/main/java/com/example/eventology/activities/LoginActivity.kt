@@ -77,6 +77,37 @@ class LoginActivity : BaseActivity() {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
+        
+        // teesting login as normal user
+        binding.appTitle.setOnClickListener {
+            val apiService: DataServiceInterface = ApiServiceProvider.getDataService()
+            val email = "testnormal@gmail.com"
+            val password = "passw0rd"
+
+            var context = this;
+
+            lifecycleScope.launch {
+
+                val errMsg = apiService.login(email, password, context)
+
+                if (errMsg != null) {
+                   println("error dev login: ${errMsg}")
+                } else {
+                    // Inicia sessió correctament
+
+                    val prefs = getSharedPreferences("session", Context.MODE_PRIVATE)
+                    prefs.edit()
+                        .putString("email", email)
+                        .putString("password", password)
+                        .putString("token", apiService.getUser()?.jwt ?: "")
+                        .apply()
+
+                    val intent = Intent(this@LoginActivity, AuthenticatedActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+            }
+        }
     }
 
     private fun handleLoginClick() {

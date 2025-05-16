@@ -1,5 +1,6 @@
 package com.example.eventology.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +18,7 @@ import kotlin.Int
  *
  * @property incidences List of incidence items to display.
  */
-class IncidenceAdapter(private val incidences: List<Incidence>) :
+class IncidenceAdapter(private val incidences: List<Incidence>, private val context: Context) :
     RecyclerView.Adapter<IncidenceAdapter.IncidenceViewHolder>() {
 
     /**
@@ -50,6 +51,22 @@ class IncidenceAdapter(private val incidences: List<Incidence>) :
     }
 
     /**
+     * Returns a localized, human-readable string for a given incidence status key.
+     *
+     * @param statusKey The internal status string (e.g., "open", "in_progress", "closed").
+     * @return A user-facing, localized status string.
+     */
+    fun getLocalizedIncidenceStatus(statusKey: String): String {
+        return when (statusKey) {
+            IncidenceTypes.OPEN -> context.getString(R.string.status_open)
+            IncidenceTypes.IN_PROGRESS -> context.getString(R.string.status_in_progress)
+            IncidenceTypes.CLOSED -> context.getString(R.string.status_closed)
+            else -> statusKey // fallback to raw string if not recognized
+        }
+    }
+
+
+    /**
      * Called by RecyclerView to display the data at the specified position.
      *
      * @param holder The ViewHolder which should be updated.
@@ -58,7 +75,8 @@ class IncidenceAdapter(private val incidences: List<Incidence>) :
     override fun onBindViewHolder(holder: IncidenceViewHolder, position: Int) {
         val incidence = incidences[position]
         holder.reasonTextView.text = incidence.reason
-        holder.statusTextView.text = capitalizeWords(incidence.status)
+        val localizedStatus = getLocalizedIncidenceStatus(incidence.status)
+        holder.statusTextView.text = capitalizeWords(localizedStatus)
         var chipStyle: Int?
 
         if(incidence.status.equals(IncidenceTypes.CLOSED)){

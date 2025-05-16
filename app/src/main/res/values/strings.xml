@@ -32,4 +32,8 @@
     <string name="option_take_picture">Take Picture</string>
     <string name="option_upload_image">Upload Image</string>
     <string name="option_remove_image">Remove Image</string>
+    <string name="status_open">Open</string>
+    <string name="status_in_progress">In Progress</string>
+    <string name="status_closed">Closed</string>
+    <string name="incidence_resolution_message">You will receive a message once the incidence is resolved.</string>
 </resources>
