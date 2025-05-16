@@ -1,4 +1,4 @@
-package com.example.eventology.services
+package com.example.eventology.data.services
 
 import java.net.URL
 import org.json.JSONArray
@@ -14,7 +14,6 @@ import com.example.eventology.data.models.Event
 import com.example.eventology.data.models.Ticket
 import com.example.eventology.constants.UserTypes
 import com.example.eventology.data.models.Incidence
-import com.example.eventology.data.services.DataServiceInterface
 
 /**
  * Implementation of [DataServiceInterface] that connects to the real backend API.
