@@ -40,4 +40,5 @@
     <string name="add_incidence_inside">Afegir una Incidència</string>
     <string name="confirm_reserve">Confirmar la reserva</string>
     <string name="seats_select">Selecciona els Seients</string>
+    <string name="no_tickets_available">Entrades exhaurides</string>
 </resources>

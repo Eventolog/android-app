@@ -39,4 +39,5 @@
     <string name="add_incidence_inside">Add an Incidence</string>
     <string name="confirm_reserve">Confirm Reserve</string>
     <string name="seats_select">Select the Seats</string>
+    <string name="no_tickets_available">All tickets sold</string>
 </resources>
