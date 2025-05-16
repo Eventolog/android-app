@@ -14,7 +14,7 @@ object ApiServiceProvider {
      * The actual instance of the [DataServiceInterface] being used.
      * You can change this to a real implementation for production use.
      */
-    private val service: DataServiceInterface = RealDataService
+    private val service: DataServiceInterface = MockDataService
 
     /**
      * Returns the currently configured data service instance.
