@@ -8,9 +8,10 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.app.AlertDialog
 import com.example.eventology.R
+import kotlinx.coroutines.launch
 import android.view.LayoutInflater
 import android.annotation.SuppressLint
-import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import androidx.core.content.ContextCompat
 import com.example.eventology.utils.DateUtils
 import com.example.eventology.data.models.Event
@@ -20,9 +21,7 @@ import com.example.eventology.utils.EventFileUtils
 import androidx.activity.result.ActivityResultLauncher
 import com.example.eventology.data.services.ApiServiceProvider
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.lifecycle.lifecycleScope
 import com.example.eventology.databinding.FragmentEventDetailPageBinding
-import kotlinx.coroutines.launch
 
 /**
  * This fragment show the detail of an event, for the organizer it allows to update its image
