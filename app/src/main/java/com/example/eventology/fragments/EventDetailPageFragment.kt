@@ -1,31 +1,31 @@
 package com.example.eventology.fragments
 
-import android.annotation.SuppressLint
+import android.view.View
+import android.os.Bundle
 import android.app.Activity
-import android.app.AlertDialog
+import android.view.ViewGroup
 import android.content.Intent
 import android.graphics.Bitmap
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
+import android.app.AlertDialog
 import com.example.eventology.R
-import com.example.eventology.constants.UserTypes
-import com.example.eventology.databinding.FragmentEventDetailPageBinding
+import android.view.LayoutInflater
+import android.annotation.SuppressLint
+import androidx.core.content.ContextCompat
 import com.example.eventology.utils.DateUtils
 import com.example.eventology.data.models.Event
-import com.example.eventology.data.services.ApiServiceProvider
 import com.example.eventology.utils.CameraHelper
+import com.example.eventology.constants.UserTypes
 import com.example.eventology.utils.EventFileUtils
+import androidx.activity.result.ActivityResultLauncher
+import com.example.eventology.data.services.ApiServiceProvider
+import androidx.activity.result.contract.ActivityResultContracts
+import com.example.eventology.databinding.FragmentEventDetailPageBinding
 
 /**
  * This fragment show the detail of an event, for the organizer it allows to update its image
  * and for the normal user it allows to buy event tickets
  */
-class EventDetailPageFragment(private val event: Event, private val authenticatedLayoutFragment: AuthenticatedLayoutFragment) : PageFragments(10, authenticatedLayoutFragment) {
+class EventDetailPageFragment(private val event: Event, authenticatedLayoutFragment: AuthenticatedLayoutFragment) : PageFragments(10, authenticatedLayoutFragment) {
 
     private var _binding: FragmentEventDetailPageBinding? = null
     private val binding get() = _binding!!
@@ -132,7 +132,7 @@ class EventDetailPageFragment(private val event: Event, private val authenticate
 
     /**
      * Opens the camera, take an image and if success load it into
-     * [binding.imageView]
+     * binding.imageView
      */
     private fun replaceImageFromCamera(){
         CameraHelper.checkPermissionAndOpenCamera(requireActivity())
@@ -141,7 +141,7 @@ class EventDetailPageFragment(private val event: Event, private val authenticate
 
     /**
      * Opens the gallery, take an image and if success load it into
-     * [binding.imageView]
+     * binding.imageView
      */
     private fun replaceImageFromGallery(){
 
