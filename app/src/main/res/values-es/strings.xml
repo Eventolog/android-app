@@ -26,7 +26,7 @@
     <string name="ticket_reserved">Entrada Reservada</string>
     <string name="select_seat">Silla Seleccionada</string>
     <string name="incidences">Incidencias</string>
-    <string name="add_incidence">Crear Incidenca</string>
+    <string name="add_incidence">Crear</string>
     <string name="reason_empty">La razón no puede estar vacía</string>
     <string name="reason_too_long">La razón no puede exceder los 500 caracteres</string>
     <string name="incidence_submitted">Incidencia enviada</string>
@@ -36,5 +36,6 @@
     <string name="status_open">Abierta</string>
     <string name="status_in_progress">En progreso</string>
     <string name="status_closed">Cerrada</string>
-    <string name="incidence_resolution_message">Rebràs un missatge quan es resolgui la incidència.</string>
+    <string name="incidence_resolution_message">Recibirás un mensaje cuando se resuelva la incidencia.</string>
+    <string name="add_incidence_inside">Añadir una incidencia</string>
 </resources>

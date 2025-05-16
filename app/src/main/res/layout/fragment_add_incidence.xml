@@ -16,18 +16,11 @@
         android:id="@+id/appTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/add_incidence"
+        android:text="@string/add_incidence_inside"
         android:textSize="@dimen/text_size_title"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:text="@string/incidence_resolution_message"
-        android:textSize="@dimen/text_size_md"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/inputText"
@@ -46,9 +39,18 @@
         android:backgroundTint="@color/primary"
         android:layout_width="wrap_content"
         android:textSize="@dimen/text_button"
+        android:layout_marginLeft="220dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:id="@+id/textView"
+        android:text="@string/incidence_resolution_message"
+        android:textSize="@dimen/text_size_md"
+        android:layout_marginTop="400dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
