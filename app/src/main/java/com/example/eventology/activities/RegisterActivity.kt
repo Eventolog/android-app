@@ -3,6 +3,7 @@ package com.example.eventology.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.example.eventology.constants.BaseActivity
 import com.example.eventology.data.services.ApiServiceProvider
@@ -31,7 +32,7 @@ class RegisterActivity : BaseActivity() {
 
     private fun handleRegister() {
         println("start register")
-        val context: Context = this.baseContext
+        val context: Context = this@RegisterActivity
 
         lifecycleScope.launch {
             val apiService: DataServiceInterface = ApiServiceProvider.getDataService()
@@ -41,10 +42,13 @@ class RegisterActivity : BaseActivity() {
 
             val errMsg = apiService.signup(name, email, password, context)
             println("error msg: $errMsg")
-            binding.errorMessageTextView.text = errMsg
-            binding.errorMessageTextView.setPadding(48, 24, 48, 24)
 
-            if (errMsg == null) {
+            if (errMsg != null) {
+                Toast.makeText(this@RegisterActivity, errMsg, Toast.LENGTH_LONG).show()
+                return@launch
+            } else {
+                Toast.makeText(this@RegisterActivity, "Registre correcte", Toast.LENGTH_SHORT).show()
+
                 // Guarda l'usuari a SharedPreferences
                 val prefs = getSharedPreferences("session", Context.MODE_PRIVATE)
                 prefs.edit()
@@ -59,22 +63,4 @@ class RegisterActivity : BaseActivity() {
             }
         }
     }
-
-//    private fun handleRegister(){
-//        println("start register")
-//        var context: Context = this.baseContext
-//
-//        lifecycleScope.launch {
-//            println("lifecycle scope launch kotlin")
-//            var apiService: DataServiceInterface = ApiServiceProvider.getDataService()
-//            var name = binding.nameEditText.text?.toString() ?: ""
-//            var email = binding.emailEditText.text?.toString() ?: ""
-//            var password = binding.passwordEditText.text?.toString() ?: ""
-//
-//            var errMsg = apiService.signup(name, email, password, context)
-//            println("error msg: $errMsg")
-//            binding.errorMessageTextView.text = errMsg
-//            binding.errorMessageTextView.setPadding(48, 24, 48, 24)
-//        }
-//    }
 }

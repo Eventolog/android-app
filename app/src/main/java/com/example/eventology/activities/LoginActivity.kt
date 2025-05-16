@@ -7,6 +7,7 @@ import android.view.MenuItem
 import android.content.Intent
 import android.content.Context
 import android.widget.PopupMenu
+import android.widget.Toast
 import com.example.eventology.R
 import kotlinx.coroutines.launch
 import androidx.lifecycle.lifecycleScope
@@ -87,9 +88,25 @@ class LoginActivity : BaseActivity() {
             val password = binding.passwordEditText.text?.toString() ?: ""
 
             val errMsg = apiService.login(email, password, context)
-            println("error msg: $errMsg")
-            binding.errorMessageTextView.text = errMsg
-            binding.errorMessageTextView.setPadding(48, 24, 48, 24)
+
+            if (errMsg != null) {
+                // Mostra un Toast només si hi ha error
+                Toast.makeText(context, errMsg, Toast.LENGTH_LONG).show()
+            } else {
+                // Inicia sessió correctament
+                Toast.makeText(context, "Sessió iniciada correctament", Toast.LENGTH_SHORT).show()
+
+                val prefs = getSharedPreferences("session", Context.MODE_PRIVATE)
+                prefs.edit()
+                    .putString("email", email)
+                    .putString("password", password)
+                    .putString("token", apiService.getUser()?.jwt ?: "")
+                    .apply()
+
+                val intent = Intent(this@LoginActivity, AuthenticatedActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
         }
     }
 

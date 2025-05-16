@@ -53,7 +53,7 @@ object RealDataService : DataServiceInterface {
                 it.write(jsonBody.toString().toByteArray())
             }
 
-            if (connection.responseCode == 200) {
+            if (connection.responseCode == 200 || connection.responseCode == 201) {
                 val response = connection.inputStream.bufferedReader().readText()
                 val json = JSONObject(response)
                 val role = json.getString("role").lowercase()
@@ -71,11 +71,12 @@ object RealDataService : DataServiceInterface {
                 )
                 null
             } else {
-                context.getString(R.string.error_invalid_credentials)
+                val errorMsg = connection.errorStream?.bufferedReader()?.readText()?.takeIf { it.isNotBlank() }
+                errorMsg ?: "Signup failed with HTTP ${connection.responseCode}"
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            context.getString(R.string.error_network)
+            e.message ?: "Network error"
         }
     }
 
@@ -106,7 +107,13 @@ object RealDataService : DataServiceInterface {
                 it.write(jsonBody.toString().toByteArray())
             }
 
-            if (connection.responseCode == 201) {
+            if (connection.responseCode == 200 || connection.responseCode == 201) {
+                user = User(
+                    name = name,
+                    email = email,
+                    jwt = "",
+                    type = UserTypes.NORMAL
+                )
                 null
             } else {
                 val errorMsg = connection.errorStream?.bufferedReader()?.readText()?.takeIf { it.isNotBlank() }
