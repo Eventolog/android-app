@@ -38,4 +38,6 @@
     <string name="status_closed">Tancada</string>
     <string name="incidence_resolution_message">Rebràs un missatge quan es resolgui la incidència</string>
     <string name="add_incidence_inside">Afegir una Incidència</string>
+    <string name="confirm_reserve">Confirmar la reserva</string>
+    <string name="seats_select">Selecciona els Seients</string>
 </resources>

@@ -37,4 +37,6 @@
     <string name="status_closed">Closed</string>
     <string name="incidence_resolution_message">You will receive a message once the incidence is resolved.</string>
     <string name="add_incidence_inside">Add an Incidence</string>
+    <string name="confirm_reserve">Confirm Reserve</string>
+    <string name="seats_select">Select the Seats</string>
 </resources>

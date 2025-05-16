@@ -38,4 +38,6 @@
     <string name="status_closed">Cerrada</string>
     <string name="incidence_resolution_message">Recibirás un mensaje cuando se resuelva la incidencia.</string>
     <string name="add_incidence_inside">Añadir una incidencia</string>
+    <string name="confirm_reserve">Confirmar la reserva</string>
+    <string name="seats_select">Selecciona las butacas</string>
 </resources>

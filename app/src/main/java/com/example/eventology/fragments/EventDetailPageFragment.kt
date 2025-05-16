@@ -25,7 +25,10 @@ import com.example.eventology.databinding.FragmentEventDetailPageBinding
  * This fragment show the detail of an event, for the organizer it allows to update its image
  * and for the normal user it allows to buy event tickets
  */
-class EventDetailPageFragment(private val event: Event, authenticatedLayoutFragment: AuthenticatedLayoutFragment) : PageFragments(10, authenticatedLayoutFragment) {
+class EventDetailPageFragment(
+    private val event: Event,
+    authenticatedLayoutFragment: AuthenticatedLayoutFragment
+) : PageFragments(10, authenticatedLayoutFragment) {
 
     private var _binding: FragmentEventDetailPageBinding? = null
     private val binding get() = _binding!!
@@ -71,11 +74,14 @@ class EventDetailPageFragment(private val event: Event, authenticatedLayoutFragm
 
         // bottom text and redirection depend of the user role
         val role = ApiServiceProvider.getDataService().getUser()?.type ?: UserTypes.NORMAL
-        if(role == UserTypes.NORMAL){
+        if (role == UserTypes.NORMAL) {
             binding.actionButton.setText(R.string.buyTicket)
-        }else if (role == UserTypes.ORGANIZER) {
-
-
+            binding.actionButton.setOnClickListener {
+                getAuthenticatedLayoutFragment().loadPage(
+                    SeatSelectionFragment(event, getAuthenticatedLayoutFragment())
+                )
+            }
+        } else if (role == UserTypes.ORGANIZER) {
             binding.actionButton.setText(R.string.updateEventImage)
             binding.actionButton.setOnClickListener {
                 val options = arrayOf(
@@ -101,7 +107,7 @@ class EventDetailPageFragment(private val event: Event, authenticatedLayoutFragm
      * Initialize the takePictureLauncher to listen on
      * success taken image [CameraHelper.checkPermissionAndOpenCamera]
      */
-    private fun initializeCamera(){
+    private fun initializeCamera() {
         // initialize camera
         takePictureLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
@@ -147,7 +153,7 @@ class EventDetailPageFragment(private val event: Event, authenticatedLayoutFragm
     /**
      * Replace image by the default
      */
-    private fun replaceImageToDefault(){
+    private fun replaceImageToDefault() {
         // set default image to the view
         binding.imageView.setImageDrawable(
             ContextCompat.getDrawable(requireContext(), R.drawable.default_event_deail_big_image)
@@ -161,7 +167,7 @@ class EventDetailPageFragment(private val event: Event, authenticatedLayoutFragm
      * Opens the camera, take an image and if success load it into
      * [binding.imageView]
      */
-    private fun replaceImageFromCamera(){
+    private fun replaceImageFromCamera() {
         CameraHelper.checkPermissionAndOpenCamera(requireActivity())
     }
 
@@ -169,7 +175,7 @@ class EventDetailPageFragment(private val event: Event, authenticatedLayoutFragm
      * Opens the gallery, take an image and if success load it into
      * [binding.imageView]
      */
-    private fun replaceImageFromGallery(){
+    private fun replaceImageFromGallery() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
         pickImageLauncher.launch(intent)

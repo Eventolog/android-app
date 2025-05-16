@@ -1,0 +1,32 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/seatSelectionLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/title"
+        android:text="@string/seats_select"
+        android:textSize="@dimen/text_size_lg"
+        android:layout_marginBottom="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <GridLayout
+        android:id="@+id/seatGrid"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:columnCount="5"
+        android:alignmentMode="alignMargins"
+        android:rowCount="10"
+        android:useDefaultMargins="true" />
+
+    <Button
+        android:id="@+id/confirmButton"
+        android:text="@string/confirm_reserve"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp" />
+</LinearLayout>
