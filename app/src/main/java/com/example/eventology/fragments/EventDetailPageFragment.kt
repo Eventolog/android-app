@@ -10,6 +10,7 @@ import android.app.AlertDialog
 import com.example.eventology.R
 import android.view.LayoutInflater
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.eventology.utils.DateUtils
 import com.example.eventology.data.models.Event
@@ -19,7 +20,9 @@ import com.example.eventology.utils.EventFileUtils
 import androidx.activity.result.ActivityResultLauncher
 import com.example.eventology.data.services.ApiServiceProvider
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.lifecycle.lifecycleScope
 import com.example.eventology.databinding.FragmentEventDetailPageBinding
+import kotlinx.coroutines.launch
 
 /**
  * This fragment show the detail of an event, for the organizer it allows to update its image
@@ -76,10 +79,24 @@ class EventDetailPageFragment(
         val role = ApiServiceProvider.getDataService().getUser()?.type ?: UserTypes.NORMAL
         if (role == UserTypes.NORMAL) {
             binding.actionButton.setText(R.string.buyTicket)
-            binding.actionButton.setOnClickListener {
-                getAuthenticatedLayoutFragment().loadPage(
-                    SeatSelectionFragment(event, getAuthenticatedLayoutFragment())
-                )
+
+            // Verifica si hi ha seients disponibles
+            lifecycleScope.launch {
+                val seats = ApiServiceProvider.getDataService().getFreeSeats(event.id)
+
+                if (seats.isEmpty()) {
+                    binding.actionButton.isEnabled = false
+                    binding.actionButton.setText(R.string.no_tickets_available)
+                    binding.actionButton.setBackgroundColor(
+                        ContextCompat.getColor(requireContext(), android.R.color.darker_gray)
+                    )
+                } else {
+                    binding.actionButton.setOnClickListener {
+                        getAuthenticatedLayoutFragment().loadPage(
+                            SeatSelectionFragment(event, getAuthenticatedLayoutFragment())
+                        )
+                    }
+                }
             }
         } else if (role == UserTypes.ORGANIZER) {
             binding.actionButton.setText(R.string.updateEventImage)
