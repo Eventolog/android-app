@@ -1,16 +1,16 @@
 package com.example.eventology.fragments
 
-import android.content.Context
-import android.content.Intent
+import java.util.Stack
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
+import android.content.Intent
 import android.view.ViewGroup
+import android.content.Context
+import com.example.eventology.R
+import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import com.example.eventology.R
 import com.example.eventology.activities.LoginActivity
-import java.util.Stack
 
 /**
  * Main frame that contains the bottom navbar and manages
@@ -18,7 +18,7 @@ import java.util.Stack
  */
 class AuthenticatedLayoutFragment : Fragment() {
     private val pageHistory = Stack<PageFragments>()
-    var currentPage: PageFragments? = null;
+    private var currentPage: PageFragments? = null
 
     private var incidencesClickCount = 0
     private var lastIncidencesClickTime = 0L
@@ -33,7 +33,7 @@ class AuthenticatedLayoutFragment : Fragment() {
      * properly handle pages navigation
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // Cargar pantalla inicial
+        // Load initial page
         loadPage(EventsListPageFragment(this))
 
         val navbarFragment = childFragmentManager.findFragmentById(R.id.navbar_fragment) as NavbarFragment
@@ -148,6 +148,16 @@ class AuthenticatedLayoutFragment : Fragment() {
         }
     }
 
+    /**
+     * Logs out the current user by clearing the saved session token and
+     * redirecting them to the [LoginActivity].
+     *
+     * This method performs the following steps:
+     * - Removes the "token" entry from the shared preferences.
+     * - Starts the [LoginActivity] with flags to clear the back stack, ensuring the user
+     *   cannot navigate back to authenticated pages.
+     * - Finishes the current activity to fully exit the authenticated session.
+     */
     private fun performLogout() {
         val prefs = requireActivity().getSharedPreferences("session", Context.MODE_PRIVATE)
         prefs.edit().remove("token").apply()

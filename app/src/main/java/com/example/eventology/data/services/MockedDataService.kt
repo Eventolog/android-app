@@ -13,7 +13,7 @@ import com.example.eventology.data.models.Incidence
 object MockDataService : DataServiceInterface {
     private var user: User? = null
 
-    private var incidencesList = mutableListOf<Incidence>(
+    private var incidencesList = mutableListOf(
         Incidence(
             id = 1,
             reason = "No he rebut les entrades per correu",
@@ -286,11 +286,11 @@ object MockDataService : DataServiceInterface {
         )
     }
 
-    override suspend fun getReservedSeats(eventId: Int): List<String> {
+    suspend fun bookSeats(eventId: Int): List<String> {
         return listOf("A1", "A2", "B3")
     }
 
-    override suspend fun reserveSeats(eventId: Int, seatIds: List<String>): Boolean {
+    suspend fun reserveSeats(eventId: Int, seatIds: List<String>): Boolean {
         println("Reservant butaques MOCK: $seatIds per a l’event $eventId")
         return true
     }
@@ -355,6 +355,6 @@ object MockDataService : DataServiceInterface {
             reason = reason,
             status = IncidenceTypes.OPEN,
         ))
-        return true;
+        return true
     }
 }

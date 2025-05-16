@@ -1,12 +1,13 @@
 package com.example.eventology.adapters
 
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
 import com.example.eventology.R
+import android.view.LayoutInflater
+import android.annotation.SuppressLint
 import com.example.eventology.data.models.Ticket
+import androidx.recyclerview.widget.RecyclerView
 
 class MyTicketsAdapter(
     private val tickets: List<Ticket>,
@@ -33,6 +34,7 @@ class MyTicketsAdapter(
 
     override fun getItemCount(): Int = tickets.size
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: TicketViewHolder, position: Int) {
         val ticket = tickets[position]
         holder.eventName.text = ticket.eventName

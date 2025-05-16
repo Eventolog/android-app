@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
  * Fragment to show available seats for a specific event.
  */
 class SeatsForEventFragment(
-    private val authenticatedLayoutFragment: AuthenticatedLayoutFragment,
+    authenticatedLayoutFragment: AuthenticatedLayoutFragment,
     private val eventId: Int
 ) : PageFragments(3, authenticatedLayoutFragment) {
 

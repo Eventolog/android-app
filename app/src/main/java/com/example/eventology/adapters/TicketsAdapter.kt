@@ -4,6 +4,7 @@ import android.view.*
 import android.widget.CheckBox
 import android.widget.TextView
 import com.example.eventology.R
+import android.annotation.SuppressLint
 import com.example.eventology.data.models.Seat
 import androidx.recyclerview.widget.RecyclerView
 
@@ -27,6 +28,7 @@ class TicketsAdapter(
 
     override fun getItemCount(): Int = seats.size
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: TicketViewHolder, position: Int) {
         val seat = seats[position]
         holder.seatLabel.text = "Fila ${seat.row}, seient ${seat.number}"

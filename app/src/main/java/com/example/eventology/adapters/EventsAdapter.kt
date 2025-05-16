@@ -1,14 +1,14 @@
 package com.example.eventology.adapters
 
-import android.content.Context
-import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.RecyclerView
+import android.content.Context
 import com.example.eventology.R
-import com.example.eventology.databinding.ItemEventBinding
-import com.example.eventology.data.models.Event
+import android.view.LayoutInflater
+import android.annotation.SuppressLint
 import com.example.eventology.utils.DateUtils
+import com.example.eventology.data.models.Event
+import androidx.recyclerview.widget.RecyclerView
+import com.example.eventology.databinding.ItemEventBinding
 
 /**
  * Adapter class for displaying a list of [Event] items in a RecyclerView.
@@ -32,19 +32,20 @@ class EventsAdapter(private val events: List<Event>, private val onEventClick: (
          *
          * @param event The event object containing the data to display.
          */
+        @SuppressLint("SetTextI18n")
         fun bind(event: Event, context: Context) {
             binding.eventName.text = event.name
             val readableDate = DateUtils.toReadableDate(event.startTime)
-            val readeableDuration = DateUtils.getReadableDuration(event.startTime, event.endTime)
+            val readableDuration = DateUtils.getReadableDuration(event.startTime, event.endTime)
             val durationTxt = context.getString(R.string.duration)
-            binding.eventTime.text = "$readableDate · ${durationTxt}: ${readeableDuration}  "
+            binding.eventTime.text = "$readableDate · ${durationTxt}: $readableDuration  "
             binding.eventDescription.text = event.description
 
             // fill the status chip
-            var isUpcoming = DateUtils.isUpcoming(event.startTime)
-            var chipStyle: Int? = null
-            var chipText = ""
-            var textColor: Int? = null;
+            val isUpcoming = DateUtils.isUpcoming(event.startTime)
+            val chipStyle: Int?
+            val chipText: String
+            val textColor: Int?
             if(isUpcoming){
                 chipStyle = R.drawable.chip_background_active
                 chipText = context.getString(R.string.upcoming)

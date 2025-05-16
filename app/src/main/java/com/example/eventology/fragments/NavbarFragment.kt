@@ -9,7 +9,7 @@ import com.example.eventology.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 /**
- * Fragmento the contains the bottom navigation bar.
+ * Fragment the contains the bottom navigation bar.
  * Expose a listener for [AuthenticatedLayoutFragment] manages the navigation state
  * on page change.
  */

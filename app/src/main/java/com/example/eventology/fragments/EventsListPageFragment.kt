@@ -1,6 +1,5 @@
 package com.example.eventology.fragments
 
-import EventDetailPageFragment
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -44,8 +43,8 @@ class EventsListPageFragment(private val authenticatedLayoutFragment: Authentica
      */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentPageEventsListBinding.inflate(inflater, container, false)
+    ): View {
+        this._binding = FragmentPageEventsListBinding.inflate(inflater, container, false)
         return binding.root
     }
 

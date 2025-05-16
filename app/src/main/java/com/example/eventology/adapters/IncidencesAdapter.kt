@@ -43,7 +43,7 @@ class IncidenceAdapter(private val incidences: List<Incidence>) :
      * @param text string to capitalize
      * @return capitalized string
      */
-    fun capitalizeWords(text: String): String {
+    private fun capitalizeWords(text: String): String {
         return text.split(" ").joinToString(" ") { it.replaceFirstChar { c -> c.uppercase() } }
     }
 

@@ -1,7 +1,6 @@
 package com.example.eventology.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,7 +33,7 @@ class IncidencesPageFragment(
 
         // Setup Add Incidence button click
         binding.addIncidenceButton.setOnClickListener {
-            var addIncidenceFragment = AddIncidenceFragment(authenticatedLayoutFragment)
+            val addIncidenceFragment = AddIncidenceFragment(authenticatedLayoutFragment)
             authenticatedLayoutFragment.loadPage(addIncidenceFragment)
         }
 
