@@ -27,4 +27,10 @@
     <string name="select_seat">Cadira Seleccionada</string>
     <string name="incidences">Incidències</string>
     <string name="add_incidence">Afegir incidència</string>
+    <string name="reason_empty">El motiu no pot estar buit</string>
+    <string name="reason_too_long">El motiu no pot superar els 500 caràcters</string>
+    <string name="incidence_submitted">Incidència enviada</string>
+    <string name="option_take_picture">Fer una foto</string>
+    <string name="option_upload_image">Pujar imatge</string>
+    <string name="option_remove_image">Eliminar imatge</string>
 </resources>
