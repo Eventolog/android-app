@@ -168,8 +168,11 @@ object RealDataService : DataServiceInterface {
                 val response = connection.inputStream.bufferedReader().readText()
 
                 val jsonObject = JSONObject(response)
+                val id = jsonObject.getString("id")
                 val name = jsonObject.getString("name")
                 val type = jsonObject.getString("type")
+
+                Log.d(TAG, "whoami data $id")
 
                 if (name.isNotEmpty()) {
                     user.name = name
@@ -226,37 +229,56 @@ object RealDataService : DataServiceInterface {
 
     override suspend fun getAllEvents(): List<Event> = withContext(Dispatchers.IO) {
         try {
-            val url = URL("$BASE_URL/events")
-            val connection = url.openConnection() as HttpURLConnection
-            connection.setRequestProperty("Authorization", "Bearer ${user?.jwt}")
-            connection.requestMethod = "GET"
+            var connection = sendRequest(ApiEndpoints.EVENTS, HttpMethods.GET, "")
+           if(connection.responseCode == 200){
+               val response = connection.inputStream.bufferedReader().readText()
+               val jsonArray = JSONObject("{\"data\":$response}").getJSONArray("data")
+               val events = mutableListOf<Event>()
 
-            val response = connection.inputStream.bufferedReader().readText()
-            val jsonArray = JSONObject("{\"data\":$response}").getJSONArray("data")
-            val events = mutableListOf<Event>()
+               for (i in 0 until jsonArray.length()) {
+                   val e = jsonArray.getJSONObject(i)
+                   val id = e.optInt("id", -1)
+                   val name = e.optString("name", "Unknown Event")
+                   val description = e.optString("description", "")
+                   val ifFullDay = e.optBoolean("if_full_day", false)  // note snake_case key from JSON
+                   val startTime = e.optString("start_time", "")
+                   val endTime = e.optString("end_time", "")
+                   val status = e.optString("status", "")
+                   val createdAt = e.optString("created_at", "")
+                   val roomName = e.optString("roomName", "")
+                   val roomDescription = e.optString("roomDescription", "")
+                   val roomDistribution = e.optString("roomDistribution", "")
+                   val roomHasSeatDistribution = e.optBoolean("roomHasSeatDistribution", false)
 
-            for (i in 0 until jsonArray.length()) {
-                val e = jsonArray.getJSONObject(i)
-                events.add(
-                    Event(
-                        id = e.getInt("id"),
-                        name = e.getString("name"),
-                        description = e.getString("description"),
-                        ifFullDay = e.getBoolean("ifFullDay"),
-                        startTime = e.getString("startTime"),
-                        endTime = e.getString("endTime"),
-                        status = e.getString("status"),
-                        createdAt = e.getString("createdAt"),
-                        roomName = e.getString("roomName"),
-                        roomDescription = e.getString("roomDescription"),
-                        roomDistribution = e.getString("roomDistribution"),
-                        roomHasSeatDistribution = e.getBoolean("roomHasSeatDistribution")
-                    )
-                )
-            }
+                   val event = Event(
+                       id = id,
+                       name = name,
+                       description = description,
+                       ifFullDay = ifFullDay,
+                       startTime = startTime,
+                       endTime = endTime,
+                       status = status,
+                       createdAt = createdAt,
+                       roomName = roomName,
+                       roomDescription = roomDescription,
+                       roomDistribution = roomDistribution,
+                       roomHasSeatDistribution = roomHasSeatDistribution
+                   )
 
-            events
+                   events.add(event)
+               }
+
+               Log.d(TAG, "get all events ${events.size}")
+
+               events
+           }else{
+               Log.d(TAG, "get empty events")
+
+               listOf()
+           }
+
         } catch (e: Exception) {
+            Log.d(TAG, "events error: ${e.toString()}")
             e.printStackTrace()
             emptyList()
         }
@@ -264,22 +286,34 @@ object RealDataService : DataServiceInterface {
 
     override suspend fun getFreeSeats(eventId: Int): List<Seat> = withContext(Dispatchers.IO) {
         try {
-            val url = URL("$BASE_URL/$eventId/getFreeSeats")
-            val connection = url.openConnection() as HttpURLConnection
-            connection.setRequestProperty("Authorization", "Bearer ${user?.jwt}")
-            connection.requestMethod = "GET"
+            val connection = sendAuthenticatedRequest(
+                ApiEndpoints.getFreeSeats(eventId),
+                HttpMethods.GET,
+                ""
+            )
 
-            val response = connection.inputStream.bufferedReader().readText()
-            val seatsJson = JSONArray(response)
-            val seats = mutableListOf<Seat>()
+            if(connection.responseCode == 200){
+                val response = connection.inputStream.bufferedReader().readText()
+                val seatsJson = JSONArray(response)
+                val seats = mutableListOf<Seat>()
 
-            for (i in 0 until seatsJson.length()) {
-                val obj = seatsJson.getJSONObject(i)
-                seats.add(Seat(obj.getInt("id"), obj.getString("row_number"), obj.getInt("seat_number")))
+                for (i in 0 until seatsJson.length()) {
+                    val obj = seatsJson.getJSONObject(i)
+                    seats.add(Seat(obj.getInt("id"), obj.getString("row_number"), obj.getInt("seat_number")))
+                }
+
+                Log.d(TAG, "get all free seats ${seats.size}")
+
+                seats
+            }else{
+                Log.d(TAG, "get empty free seats")
+
+                listOf()
             }
 
-            seats
         } catch (e: Exception) {
+            Log.d(TAG, "free seats error: ${e.toString()}")
+
             e.printStackTrace()
             emptyList()
         }
@@ -311,38 +345,47 @@ object RealDataService : DataServiceInterface {
 
     override suspend fun getMyTickets(): List<Ticket> = withContext(Dispatchers.IO) {
         try {
-            val url = URL("$BASE_URL/tickets/my")
-            val connection = url.openConnection() as HttpURLConnection
-            connection.setRequestProperty("Authorization", "Bearer \${user?.jwt}")
-            connection.requestMethod = "GET"
-
+            val connection = sendAuthenticatedRequest(ApiEndpoints.MY_TICKETS, HttpMethods.GET, "")
             val response = connection.inputStream.bufferedReader().readText()
-            val ticketsJson = JSONArray(response)
-            val tickets = mutableListOf<Ticket>()
 
-            for (i in 0 until ticketsJson.length()) {
-                val t = ticketsJson.getJSONObject(i)
-                val seat = t.optJSONObject("seat")
+            if (connection.responseCode == 200) {
+                val ticketsJson = JSONArray(response)
+                val tickets = mutableListOf<Ticket>()
 
-                tickets.add(
-                    Ticket(
-                        id = t.getInt("id"),
-                        eventId = t.getInt("eventId"),
-                        eventName = t.getString("eventName"),
-                        seatRow = seat?.optString("row_number"),
-                        seatNumber = seat?.optInt("seat_number"),
-                        reservationDate = t.getString("reservation"),
-                        status = t.getString("status")
+                for (i in 0 until ticketsJson.length()) {
+                    val t = ticketsJson.getJSONObject(i)
+
+                    val event = t.optJSONObject("Event")
+                    val seat = t.optJSONObject("Seat")
+
+                    tickets.add(
+                        Ticket(
+                            id = t.getInt("id"),
+                            eventId = event?.getInt("id") ?: 0,
+                            eventName = event?.getString("name") ?: "",
+                            seatRow = seat?.optInt("row_number")?.toString(),
+                            seatNumber = seat?.optInt("seat_number"),
+                            reservationDate = t.getString("reservation"),
+                            status = t.getString("status")
+                        )
                     )
-                )
-            }
+                }
 
-            tickets
+                Log.d(TAG, "tickets size:  ${tickets.size}")
+                tickets
+            } else {
+                Log.d(TAG, "status code: ${connection.responseCode}")
+                Log.d(TAG, "message: ${response}")
+                Log.d(TAG, "get empty tickets")
+                listOf()
+            }
         } catch (e: Exception) {
+            Log.d(TAG, "tickets error: ${e.toString()}")
             e.printStackTrace()
             emptyList()
         }
     }
+
 
     override suspend fun getMyIncidences(): List<Incidence> {
         TODO("Not yet implemented")
