@@ -33,4 +33,8 @@
     <string name="option_take_picture">Fer una foto</string>
     <string name="option_upload_image">Pujar imatge</string>
     <string name="option_remove_image">Eliminar imatge</string>
+    <string name="status_open">Oberta</string>
+    <string name="status_in_progress">En curs</string>
+    <string name="status_closed">Tancada</string>
+    <string name="incidence_resolution_message">Recibirás un mensaje cuando se resuelva la incidencia.</string>
 </resources>

@@ -40,7 +40,7 @@ class IncidencesPageFragment(
         // Fetch incidences and set up adapter
         lifecycleScope.launch {
             val incidences = ApiServiceProvider.getDataService().getMyIncidences()
-            binding.incidencesRecyclerView.adapter = IncidenceAdapter(incidences)
+            binding.incidencesRecyclerView.adapter = IncidenceAdapter(incidences, requireContext())
         }
 
         return binding.root

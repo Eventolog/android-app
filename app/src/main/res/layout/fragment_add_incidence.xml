@@ -14,15 +14,21 @@
 
     <TextView
         android:id="@+id/appTitle"
-        android:text="@string/incidences"
-        android:textSize="@dimen/text_size_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/add_incidence"
+        android:textSize="@dimen/text_size_title"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Added EditText input here -->
+    <TextView
+        android:id="@+id/textView"
+        android:text="@string/incidence_resolution_message"
+        android:textSize="@dimen/text_size_md"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <EditText
         android:id="@+id/inputText"
         android:layout_width="match_parent"

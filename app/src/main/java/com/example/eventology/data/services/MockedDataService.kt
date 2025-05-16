@@ -17,52 +17,27 @@ object MockDataService : DataServiceInterface {
         Incidence(
             id = 1,
             reason = "No he rebut les entrades per correu",
-            status = "pendent"
+            status = IncidenceTypes.IN_PROGRESS
         ),
         Incidence(
             id = 2,
             reason = "Error en el pagament",
-            status = "pendent"
+            status = IncidenceTypes.IN_PROGRESS
         ),
         Incidence(
             id = 3,
             reason = "He comprat entrades duplicades per error",
-            status = "en procés"
+            status = IncidenceTypes.IN_PROGRESS
         ),
         Incidence(
             id = 4,
             reason = "El codi QR no funciona a l'entrada",
-            status = "resolt"
+            status = IncidenceTypes.CLOSED
         ),
         Incidence(
             id = 5,
             reason = "L'esdeveniment ha estat cancel·lat",
-            status = "pendent"
-        ),
-        Incidence(
-            id = 6,
-            reason = "Vull canviar la data de l'esdeveniment",
-            status = "pendent"
-        ),
-        Incidence(
-            id = 7,
-            reason = "Les meves dades personals són incorrectes",
-            status = "en procés"
-        ),
-        Incidence(
-            id = 8,
-            reason = "No puc accedir al meu compte",
-            status = "resolt"
-        ),
-        Incidence(
-            id = 9,
-            reason = "He comprat entrades però no apareixen a l'app",
-            status = "pendent"
-        ),
-        Incidence(
-            id = 10,
-            reason = "El preu mostrat no coincideix amb el total cobrat",
-            status = "en procés"
+            status =  IncidenceTypes.IN_PROGRESS
         )
     )
 
