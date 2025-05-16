@@ -6,8 +6,8 @@ import android.widget.TextView
 import com.example.eventology.R
 import android.view.LayoutInflater
 import android.annotation.SuppressLint
-import com.example.eventology.data.models.Ticket
 import androidx.recyclerview.widget.RecyclerView
+import com.example.eventology.data.models.Ticket
 
 class MyTicketsAdapter(
     private val tickets: List<Ticket>,
@@ -18,12 +18,6 @@ class MyTicketsAdapter(
         val eventName: TextView = view.findViewById(R.id.ticketEventName)
         val seatInfo: TextView = view.findViewById(R.id.ticketSeat)
         val reservationDate: TextView = view.findViewById(R.id.ticketDate)
-
-        init {
-            view.setOnClickListener {
-                onTicketClicked(tickets[adapterPosition])
-            }
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TicketViewHolder {
@@ -40,5 +34,10 @@ class MyTicketsAdapter(
         holder.eventName.text = ticket.eventName
         holder.seatInfo.text = "Fila ${ticket.seatRow}, Seient ${ticket.seatNumber}"
         holder.reservationDate.text = "Reserva: ${ticket.reservationDate}"
+
+        // Assignem el clickListener aquí amb ticket correcte
+        holder.itemView.setOnClickListener {
+            onTicketClicked(ticket)
+        }
     }
 }
