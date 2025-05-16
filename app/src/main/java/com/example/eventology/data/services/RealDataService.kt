@@ -5,7 +5,6 @@ import org.json.JSONArray
 import org.json.JSONObject
 import android.content.Context
 import android.util.Log
-import com.example.eventology.R
 import com.example.eventology.constants.ApiEndpoints
 import com.example.eventology.constants.HttpMethods
 import java.net.HttpURLConnection
@@ -15,7 +14,6 @@ import com.example.eventology.data.models.User
 import com.example.eventology.data.models.Seat
 import com.example.eventology.data.models.Event
 import com.example.eventology.data.models.Ticket
-import com.example.eventology.constants.UserTypes
 import com.example.eventology.data.models.Incidence
 import com.example.eventology.utils.Utils
 import java.io.IOException
@@ -387,11 +385,64 @@ object RealDataService : DataServiceInterface {
     }
 
 
-    override suspend fun getMyIncidences(): List<Incidence> {
-        TODO("Not yet implemented")
+    override suspend fun getMyIncidences(): List<Incidence> = withContext(Dispatchers.IO) {
+        try {
+            val connection =
+                sendAuthenticatedRequest(ApiEndpoints.INCIDENCES, HttpMethods.GET, "")
+            val response = connection.inputStream.bufferedReader().readText()
+
+            if (connection.responseCode == 200) {
+                val incidencesJson = JSONArray(response)
+                val incidences = mutableListOf<Incidence>()
+
+                for (i in 0 until incidencesJson.length()) {
+                    val i = incidencesJson.getJSONObject(i)
+
+                    incidences.add(
+                        Incidence(
+                            id = i.getInt("id"),
+                            reason = i.getString("reason"),
+                            status = i.getString("status")
+                        )
+                    )
+                }
+
+                Log.d(TAG, "incidences size:  ${incidences.size}")
+                incidences
+            } else {
+                Log.d(TAG, "status code: ${connection.responseCode}")
+                Log.d(TAG, "message: ${response}")
+                Log.d(TAG, "get empty incidences")
+                listOf()
+            }
+        } catch (e: Exception) {
+            Log.d(TAG, "incidences error: ${e.toString()}")
+            e.printStackTrace()
+            emptyList()
+        }
     }
 
-    override suspend fun createIncidence(reason: String): Boolean {
-        TODO("Not yet implemented")
+    override suspend fun createIncidence(reason: String): Boolean  = withContext(Dispatchers.IO) {
+        try {
+            val jsonBody = JSONObject().apply {
+                put("reason", reason)
+            }
+
+            val connection = sendAuthenticatedRequest(ApiEndpoints.INCIDENCES, HttpMethods.POST, jsonBody.toString())
+            Log.d(TAG, "response code: ${connection.responseCode}")
+            if (connection.responseCode == 200 ) {
+
+                Log.d(TAG, "incidence created properly")
+                true
+            } else {
+                false
+            }
+        } catch (e: Exception) {
+            Log.d(TAG, "incidence create exception: ${e.toString()}")
+
+            e.printStackTrace()
+            e.message ?: "Network error"
+            false
+        }
     }
 }

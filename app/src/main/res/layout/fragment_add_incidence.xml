@@ -35,22 +35,22 @@
 
     <Button
         android:id="@+id/addIncidenceButton"
-        android:text="@string/add_incidence"
-        android:backgroundTint="@color/primary"
-        android:layout_width="wrap_content"
-        android:textSize="@dimen/text_button"
-        android:layout_marginLeft="220dp"
+        android:layout_width="126dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="220dp"
+        android:backgroundTint="@color/primary"
+        android:text="@string/add_incidence"
+        android:textSize="@dimen/text_button"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView"
-        android:text="@string/incidence_resolution_message"
-        android:textSize="@dimen/text_size_md"
-        android:layout_marginTop="400dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="400dp"
+        android:text="@string/incidence_resolution_message"
+        android:textSize="@dimen/text_size_md" />
 
 </LinearLayout>

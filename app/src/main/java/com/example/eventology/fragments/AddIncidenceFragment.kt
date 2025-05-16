@@ -44,7 +44,6 @@ class AddIncidenceFragment(
                 else -> {
                     lifecycleScope.launch {
 
-                    Toast.makeText(requireContext(), getString(R.string.incidence_submitted), Toast.LENGTH_SHORT).show()
                     // create incidence
                     ApiServiceProvider.getDataService().createIncidence(reason)
                     // return to incidences page

@@ -6,6 +6,7 @@ object ApiEndpoints {
     const val SIGNUP = "/user/signup"
     const val EVENTS = "/events"
     const val MY_TICKETS = "/getMyTickets"
+    const val INCIDENCES = "/incidences"
     fun getFreeSeats(eventId: Int): String {
         return "/$eventId/getFreeSeats"
     }
