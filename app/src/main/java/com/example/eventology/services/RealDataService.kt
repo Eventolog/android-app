@@ -1,4 +1,4 @@
-package com.example.eventology.data.services
+package com.example.eventology.services
 
 import java.net.URL
 import org.json.JSONArray
@@ -14,6 +14,7 @@ import com.example.eventology.data.models.Event
 import com.example.eventology.data.models.Ticket
 import com.example.eventology.constants.UserTypes
 import com.example.eventology.data.models.Incidence
+import com.example.eventology.data.services.DataServiceInterface
 
 /**
  * Implementation of [DataServiceInterface] that connects to the real backend API.
@@ -26,7 +27,7 @@ object RealDataService : DataServiceInterface {
     /**
      * Returns the currently authenticated user, or null if no user is logged in.
      */
-    override fun getUser(): User? = this.user
+    override fun getUser(): User? = user
 
     /**
      * Attempts to log in a user by sending credentials to the backend API.
@@ -38,7 +39,7 @@ object RealDataService : DataServiceInterface {
      */
     override suspend fun login(email: String, password: String, context: Context): String? = withContext(Dispatchers.IO) {
         try {
-            val url = URL("${BASE_URL}/user/login")
+            val url = URL("$BASE_URL/user/login")
             val connection = url.openConnection() as HttpURLConnection
             connection.requestMethod = "POST"
             connection.setRequestProperty("Content-Type", "application/json")
@@ -90,7 +91,7 @@ object RealDataService : DataServiceInterface {
      */
     override suspend fun signup(name: String, email: String, password: String, context: Context): String? = withContext(Dispatchers.IO) {
         try {
-            val url = URL("${BASE_URL}/user/signup")
+            val url = URL("$BASE_URL/user/signup")
             val connection = url.openConnection() as HttpURLConnection
             connection.requestMethod = "POST"
             connection.setRequestProperty("Content-Type", "application/json")
@@ -125,7 +126,7 @@ object RealDataService : DataServiceInterface {
      */
     override suspend fun getAllEvents(): List<Event> = withContext(Dispatchers.IO) {
         try {
-            val url = URL("${BASE_URL}/events")
+            val url = URL("$BASE_URL/events")
             val connection = url.openConnection() as HttpURLConnection
             connection.setRequestProperty("Authorization", "Bearer ${user?.jwt}")
             connection.requestMethod = "GET"
@@ -169,7 +170,7 @@ object RealDataService : DataServiceInterface {
      */
     override suspend fun getFreeSeats(eventId: Int): List<Seat> = withContext(Dispatchers.IO) {
         try {
-            val url = URL("${BASE_URL}/$eventId/getFreeSeats")
+            val url = URL("$BASE_URL/$eventId/getFreeSeats")
             val connection = url.openConnection() as HttpURLConnection
             connection.setRequestProperty("Authorization", "Bearer ${user?.jwt}")
             connection.requestMethod = "GET"
@@ -201,7 +202,7 @@ object RealDataService : DataServiceInterface {
     override suspend fun bookSeats(eventId: Int, seatIds: List<Int>): Boolean = withContext(Dispatchers.IO) {
         try {
             seatIds.forEach { seatId ->
-                val url = URL("${BASE_URL}/$eventId/bookSeat")
+                val url = URL("$BASE_URL/$eventId/bookSeat")
                 val connection = url.openConnection() as HttpURLConnection
                 connection.requestMethod = "POST"
                 connection.setRequestProperty("Authorization", "Bearer ${user?.jwt}")
@@ -229,7 +230,7 @@ object RealDataService : DataServiceInterface {
      */
     override suspend fun getMyTickets(): List<Ticket> = withContext(Dispatchers.IO) {
         try {
-            val url = URL("${BASE_URL}/tickets/my")
+            val url = URL("$BASE_URL/tickets/my")
             val connection = url.openConnection() as HttpURLConnection
             connection.setRequestProperty("Authorization", "Bearer \${user?.jwt}")
             connection.requestMethod = "GET"

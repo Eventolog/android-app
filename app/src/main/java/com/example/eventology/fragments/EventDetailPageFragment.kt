@@ -1,3 +1,6 @@
+package com.example.eventology.fragments
+
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
@@ -15,8 +18,6 @@ import com.example.eventology.databinding.FragmentEventDetailPageBinding
 import com.example.eventology.utils.DateUtils
 import com.example.eventology.data.models.Event
 import com.example.eventology.data.services.ApiServiceProvider
-import com.example.eventology.fragments.AuthenticatedLayoutFragment
-import com.example.eventology.fragments.PageFragments
 import com.example.eventology.utils.CameraHelper
 import com.example.eventology.utils.EventFileUtils
 
@@ -32,7 +33,7 @@ class EventDetailPageFragment(private val event: Event, private val authenticate
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentEventDetailPageBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -41,6 +42,7 @@ class EventDetailPageFragment(private val event: Event, private val authenticate
      * Fills the data of the fragment layout with event details, also
      * adds button login depending of the [UserTypes] of the authenticated user
      */
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
        initializeCamera()
@@ -50,7 +52,7 @@ class EventDetailPageFragment(private val event: Event, private val authenticate
         if (storedImage != null) {
             binding.imageView.setImageBitmap(storedImage)
         } else {
-            replaceImageToDeafult()
+            replaceImageToDefault()
         }
 
         // name
@@ -60,16 +62,16 @@ class EventDetailPageFragment(private val event: Event, private val authenticate
         binding.eventDetailDescription.text = event.description
 
         // date and duration
-        var readeableDate = DateUtils.toReadableDate(event.startTime);
-        var readeableDuration = DateUtils.getReadableDuration(event.startTime, event.endTime);
-        var durationTxt = context?.getString(R.string.duration)
-        binding.eventDetailTime.text = "${readeableDate} · ${durationTxt}: ${readeableDuration}"
+        val readableDate = DateUtils.toReadableDate(event.startTime)
+        val readableDuration = DateUtils.getReadableDuration(event.startTime, event.endTime)
+        val durationTxt = context?.getString(R.string.duration)
+        binding.eventDetailTime.text = "$readableDate · ${durationTxt}: $readableDuration"
 
         // bottom text and redirection depend of the user role
-        var role = ApiServiceProvider.getDataService().getUser()?.type ?: UserTypes.ORGANIZER
-        if(role.equals(UserTypes.NORMAL)){
+        val role = ApiServiceProvider.getDataService().getUser()?.type ?: UserTypes.ORGANIZER
+        if(role == UserTypes.NORMAL){
             binding.actionButton.setText(R.string.buyTicket)
-        }else if (role.equals(UserTypes.ORGANIZER)) {
+        }else if (role == UserTypes.ORGANIZER) {
 
 
             binding.actionButton.setText(R.string.updateEventImage)
@@ -77,11 +79,11 @@ class EventDetailPageFragment(private val event: Event, private val authenticate
                 val options = arrayOf("Take Picture", "Upload Image", "Remove Image")
                 AlertDialog.Builder(requireContext())
                     .setTitle("Select Option")
-                    .setItems(options) { dialog, which ->
+                    .setItems(options) { _, which ->
                         when (which) {
                             0 -> replaceImageFromCamera()
                             1 -> replaceImageFromGallery()
-                            2 -> replaceImageToDeafult()
+                            2 -> replaceImageToDefault()
                         }
                     }
                     .show()
@@ -92,8 +94,8 @@ class EventDetailPageFragment(private val event: Event, private val authenticate
     }
 
     /**
-     * Initalize the takePictureLauncher to listen on
-     * succes taken image [ameraHelper.checkPermissionAndOpenCamera]
+     * Initialize the takePictureLauncher to listen on
+     * success taken image [CameraHelper.checkPermissionAndOpenCamera]
      */
     private fun initializeCamera(){
         // initialize camera
@@ -114,7 +116,7 @@ class EventDetailPageFragment(private val event: Event, private val authenticate
     /**
      * Replace image by the default
      */
-    private fun replaceImageToDeafult(){
+    private fun replaceImageToDefault(){
         // set default image to the view
         binding.imageView.setImageDrawable(
             ContextCompat.getDrawable(requireContext(), R.drawable.default_event_deail_big_image)

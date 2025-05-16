@@ -85,9 +85,9 @@ interface DataServiceInterface {
 
     /**
      * Creates an incidence for the authenticated user
-     * @param the context of the incidence
+     * @param reason the context of the incidence
      *
-     * @return `true` if succeded or `false` if any error happened
+     * @return `true` if succeeded or `false` if any error happened
      */
     suspend fun createIncidence(reason: String): Boolean
 }
