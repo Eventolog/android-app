@@ -44,6 +44,11 @@ interface DataServiceInterface {
     suspend fun signup(name: String, email: String, password: String, context: Context): String?
 
     /**
+     * Calls the endpoint whoami with the stored jwt and stres the user data
+     * on the interface implementation
+     */
+    suspend fun whoami()
+    /**
      * Retrieves a list of all available events from the backend or mocked data source.
      *
      * @return A list of [Event] objects representing the available events.

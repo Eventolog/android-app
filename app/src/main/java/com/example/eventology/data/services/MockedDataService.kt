@@ -47,7 +47,7 @@ object MockDataService : DataServiceInterface {
     }
 
     private fun matchNormalUserCredentials(email: String, password: String): Boolean {
-        val validEmail = "normal@gmail.com"
+        val validEmail = "testnormal@gmail.com"
         val validPassword = "passw0rd"
         val matchNormalUserCredentials = email == validEmail && password == validPassword
         return matchNormalUserCredentials
@@ -114,6 +114,10 @@ object MockDataService : DataServiceInterface {
             )
         }
         return errorMsg
+    }
+
+    override suspend fun whoami() {
+        TODO("Not yet implemented")
     }
 
     override suspend fun getAllEvents(): List<Event> {

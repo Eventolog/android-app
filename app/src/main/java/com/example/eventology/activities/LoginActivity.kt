@@ -33,9 +33,11 @@ class LoginActivity : BaseActivity() {
         super.attachBaseContext(context)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
+    /**
+     * If user was authenticated on other app sessions its data will be stored in sharedPreferences
+     * so use its authenticateion details to login
+     */
+    fun loginIfUserPreferencesStored(){
         // Revisa si ja està guardat l'usuari
         val prefs = getSharedPreferences("session", Context.MODE_PRIVATE)
         val savedEmail = prefs.getString("email", null)
@@ -53,14 +55,20 @@ class LoginActivity : BaseActivity() {
             }
         }
 
-        binding = ActivityLoginBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
         if (userAlreadyLoggedIn()) {
             val intent = Intent(this, AuthenticatedActivity::class.java)
             startActivity(intent)
             finish()
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+//        loginIfUserPreferencesStored()
+
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -93,6 +101,7 @@ class LoginActivity : BaseActivity() {
                 if (errMsg != null) {
                    println("error dev login: ${errMsg}")
                 } else {
+                    println("dev login successfully")
                     // Inicia sessió correctament
 
                     val prefs = getSharedPreferences("session", Context.MODE_PRIVATE)
