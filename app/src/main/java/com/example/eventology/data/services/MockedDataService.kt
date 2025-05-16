@@ -305,7 +305,7 @@ object MockDataService : DataServiceInterface {
         return listOf(
             Ticket(
                 id = 1,
-                eventId = 2,
+                eventId = 1,
                 eventName = events.first { it.id == 1 }.name,
                 seatRow = "A",
                 seatNumber = 1,

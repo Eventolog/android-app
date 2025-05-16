@@ -25,7 +25,7 @@
     <string name="ticket_reserved">Ticket Reserved</string>
     <string name="select_seat">Select Seat</string>
     <string name="incidences">Incidences</string>
-    <string name="add_incidence">Add Incidence</string>
+    <string name="add_incidence">Add</string>
     <string name="reason_empty">Reason cannot be empty</string>
     <string name="reason_too_long">Reason cannot exceed 500 characters</string>
     <string name="incidence_submitted">Incidence submitted</string>
@@ -36,4 +36,7 @@
     <string name="status_in_progress">In Progress</string>
     <string name="status_closed">Closed</string>
     <string name="incidence_resolution_message">You will receive a message once the incidence is resolved.</string>
+    <string name="add_incidence_inside">Add an Incidence</string>
+    <string name="confirm_reserve">Confirm Reserve</string>
+    <string name="seats_select">Select the Seats</string>
 </resources>
