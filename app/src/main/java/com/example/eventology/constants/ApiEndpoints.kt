@@ -10,4 +10,7 @@ object ApiEndpoints {
     fun getFreeSeats(eventId: Int): String {
         return "/$eventId/getFreeSeats"
     }
+    fun bookSeat(eventId: Int): String {
+        return "/$eventId/bookSeat"
+    }
 }

@@ -320,17 +320,13 @@ object RealDataService : DataServiceInterface {
     override suspend fun bookSeats(eventId: Int, seatIds: List<Int>): Boolean = withContext(Dispatchers.IO) {
         try {
             seatIds.forEach { seatId ->
-                val url = URL("$BASE_URL/$eventId/bookSeat")
-                val connection = url.openConnection() as HttpURLConnection
-                connection.requestMethod = "POST"
-                connection.setRequestProperty("Authorization", "Bearer ${user?.jwt}")
-                connection.setRequestProperty("Content-Type", "application/json")
-                connection.doOutput = true
-
                 val jsonBody = JSONObject().put("seatId", seatId)
-                connection.outputStream.use {
-                    it.write(jsonBody.toString().toByteArray())
-                }
+
+                val connection = sendAuthenticatedRequest(
+                    ApiEndpoints.bookSeat(eventId),
+                    HttpMethods.POST,
+                    jsonBody.toString()
+                )
 
                 if (connection.responseCode != 200) return@withContext false
             }
