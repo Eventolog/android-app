@@ -29,68 +29,6 @@ object RealDataService : DataServiceInterface {
     override fun getUser(): User? = this.user
 
     /**
-     * Retrieves a list of reserved seat IDs (as Strings) for a given event.
-     * This is calculated by assuming all seat IDs range from 1 to 50 and subtracting the free ones.
-     *
-     * @param eventId The ID of the event.
-     * @return A list of reserved seat IDs.
-     */
-    override suspend fun getReservedSeats(eventId: Int): List<String> = withContext(Dispatchers.IO) {
-        try {
-            val url = URL("${BASE_URL}/$eventId/getFreeSeats")
-            val connection = url.openConnection() as HttpURLConnection
-            connection.setRequestProperty("Authorization", "Bearer ${user?.jwt}")
-            connection.requestMethod = "GET"
-
-            val response = connection.inputStream.bufferedReader().readText()
-            val freeSeatsJson = JSONArray(response)
-            val freeSeatIds = mutableSetOf<String>()
-
-            for (i in 0 until freeSeatsJson.length()) {
-                val seat = freeSeatsJson.getJSONObject(i)
-                freeSeatIds.add(seat.getInt("id").toString())
-            }
-
-            val allSeatIds = (1..50).map { it.toString() }
-            allSeatIds.filterNot { it in freeSeatIds }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            emptyList()
-        }
-    }
-
-    /**
-     * Attempts to reserve a list of seats for a given event by calling the API.
-     *
-     * @param eventId The ID of the event.
-     * @param seatIds A list of seat IDs (as Strings) to reserve.
-     * @return `true` if all seats are reserved successfully, `false` otherwise.
-     */
-    override suspend fun reserveSeats(eventId: Int, seatIds: List<String>): Boolean = withContext(Dispatchers.IO) {
-        try {
-            for (seatId in seatIds) {
-                val url = URL("${BASE_URL}/$eventId/bookSeat")
-                val connection = url.openConnection() as HttpURLConnection
-                connection.setRequestProperty("Authorization", "Bearer ${user?.jwt}")
-                connection.setRequestProperty("Content-Type", "application/json")
-                connection.requestMethod = "POST"
-                connection.doOutput = true
-
-                val jsonBody = JSONObject().put("seatId", seatId.toInt())
-                connection.outputStream.use {
-                    it.write(jsonBody.toString().toByteArray())
-                }
-
-                if (connection.responseCode != 200) return@withContext false
-            }
-            true
-        } catch (e: Exception) {
-            e.printStackTrace()
-            false
-        }
-    }
-
-    /**
      * Attempts to log in a user by sending credentials to the backend API.
      *
      * @param email The user's email address.
@@ -171,7 +109,6 @@ object RealDataService : DataServiceInterface {
             if (connection.responseCode == 201) {
                 null
             } else {
-                // Llegeix el missatge d’error del cos de la resposta si hi és
                 val errorMsg = connection.errorStream?.bufferedReader()?.readText()?.takeIf { it.isNotBlank() }
                 errorMsg ?: "Signup failed with HTTP ${connection.responseCode}"
             }
