@@ -320,18 +320,22 @@ object RealDataService : DataServiceInterface {
     override suspend fun bookSeats(eventId: Int, seatIds: List<Int>): Boolean = withContext(Dispatchers.IO) {
         try {
             seatIds.forEach { seatId ->
-                val jsonBody = JSONObject().put("seatId", seatId)
-
                 val connection = sendAuthenticatedRequest(
                     ApiEndpoints.bookSeat(eventId),
                     HttpMethods.POST,
-                    jsonBody.toString()
+                    seatId.toString()
                 )
 
-                if (connection.responseCode != 200) return@withContext false
+                Log.d(TAG, "issue booking seats")
+                Log.d(TAG, connection.responseCode.toString())
+                if (connection.responseCode != 200) {
+
+                    return@withContext false
+                }
             }
             true
         } catch (e: Exception) {
+            Log.d(TAG, "issue booking tickets ${e.toString()}")
             e.printStackTrace()
             false
         }
