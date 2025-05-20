@@ -41,4 +41,5 @@
     <string name="confirm_reserve">Confirmar la reserva</string>
     <string name="seats_select">Selecciona els Seients</string>
     <string name="no_tickets_available">Entrades exhaurides</string>
+    <string name="option_take_video">Fer un vídeo</string>
 </resources>

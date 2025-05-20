@@ -48,4 +48,22 @@ object EventFileUtils {
         return BitmapFactory.decodeStream(inputStream!!)
     }
 
+    fun saveEventVideoUri(context: Context, eventId: String, uri: Uri): Boolean {
+        return try {
+            val inputStream = context.contentResolver.openInputStream(uri)
+            val file = File(context.filesDir, "event_video_$eventId.mp4")
+            FileOutputStream(file).use { output ->
+                inputStream?.copyTo(output)
+            }
+            true
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
+        }
+    }
+
+    fun getSavedVideoFile(context: Context, eventId: String): File? {
+        val file = File(context.filesDir, "event_video_$eventId.mp4")
+        return if (file.exists()) file else null
+    }
 }

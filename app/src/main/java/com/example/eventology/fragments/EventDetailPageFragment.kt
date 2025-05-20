@@ -11,6 +11,8 @@ import com.example.eventology.R
 import kotlinx.coroutines.launch
 import android.view.LayoutInflater
 import android.annotation.SuppressLint
+import android.provider.MediaStore
+import android.widget.VideoView
 import androidx.lifecycle.lifecycleScope
 import androidx.core.content.ContextCompat
 import com.example.eventology.utils.DateUtils
@@ -37,10 +39,14 @@ class EventDetailPageFragment(
     private lateinit var takePictureLauncher: ActivityResultLauncher<Intent>
     private lateinit var pickImageLauncher: ActivityResultLauncher<Intent>
 
+    private lateinit var pickVideoLauncher: ActivityResultLauncher<Intent>
+    private lateinit var videoView: VideoView
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentEventDetailPageBinding.inflate(inflater, container, false)
+        videoView = binding.root.findViewById(R.id.videoView)
         return binding.root
     }
 
@@ -53,13 +59,29 @@ class EventDetailPageFragment(
         super.onViewCreated(view, savedInstanceState)
         initializeCamera()
         initializeGalleryPicker()
+        initializeVideoPicker()
 
-        // load event image if exists
-        val storedImage = EventFileUtils.loadEventImage(requireContext(), event.id.toString())
-        if (storedImage != null) {
-            binding.imageView.setImageBitmap(storedImage)
+        // Primer: comprovem si hi ha un vídeo guardat
+        val videoFile = EventFileUtils.getSavedVideoFile(requireContext(), event.id.toString())
+        if (videoFile != null) {
+            binding.imageView.visibility = View.GONE
+            videoView.visibility = View.VISIBLE
+            videoView.setVideoPath(videoFile.absolutePath)
+
+            videoView.setOnCompletionListener {
+                videoView.start()
+            }
+            videoView.start()
         } else {
-            replaceImageToDefault()
+            // Si no hi ha vídeo, carreguem la imatge si existeix
+            val storedImage = EventFileUtils.loadEventImage(requireContext(), event.id.toString())
+            if (storedImage != null) {
+                binding.imageView.visibility = View.VISIBLE
+                videoView.visibility = View.GONE
+                binding.imageView.setImageBitmap(storedImage)
+            } else {
+                replaceImageToDefault()
+            }
         }
 
         // name
@@ -75,7 +97,7 @@ class EventDetailPageFragment(
         binding.eventDetailTime.text = "$readableDate · ${durationTxt}: $readableDuration"
 
         // bottom text and redirection depend of the user role
-        val role = ApiServiceProvider.getDataService().getUser()?.type ?: UserTypes.NORMAL
+        val role = ApiServiceProvider.getDataService().getUser()?.type ?: UserTypes.ORGANIZER
         if (role == UserTypes.NORMAL) {
             binding.actionButton.setText(R.string.buyTicket)
 
@@ -103,6 +125,7 @@ class EventDetailPageFragment(
                 val options = arrayOf(
                     getString(R.string.option_take_picture),
                     getString(R.string.option_upload_image),
+                    getString(R.string.option_take_video),
                     getString(R.string.option_remove_image)
                 )
                 AlertDialog.Builder(requireContext())
@@ -111,7 +134,8 @@ class EventDetailPageFragment(
                         when (which) {
                             0 -> replaceImageFromCamera()
                             1 -> replaceImageFromGallery()
-                            2 -> replaceImageToDefault()
+                            2 -> replaceImageToVideo()
+                            3 -> replaceImageToDefault()
                         }
                     }
                     .show()
@@ -156,11 +180,37 @@ class EventDetailPageFragment(
             ActivityResultContracts.StartActivityForResult()
         ) { result ->
             if (result.resultCode == Activity.RESULT_OK && result.data != null) {
-                val uri = result.data!!.data
+                val uri = result.data!!.data // Check de dades
                 uri?.let {
-                    val bitmap = EventFileUtils.getBitmapFromUri(requireContext(), it)
+                    val bitmap = EventFileUtils.getBitmapFromUri(requireContext(), it) // Conversió a Bitmap
                     binding.imageView.setImageBitmap(bitmap)
                     EventFileUtils.saveEventImage(requireContext(), event.id.toString(), bitmap)
+                }
+            }
+        }
+    }
+
+    private fun initializeVideoPicker() {
+        pickVideoLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == Activity.RESULT_OK && result.data != null) {
+                val uri = result.data!!.data
+                uri?.let {
+                    // Oculta imatge
+                    binding.imageView.visibility = View.GONE
+
+                    // Mostra el vídeo
+                    videoView.visibility = View.VISIBLE
+                    videoView.setVideoURI(it)
+
+                    videoView.setOnCompletionListener {
+                        videoView.start()
+                    }
+                    videoView.start()
+
+                    // Opcional: desa la URI en arxiu o DB
+                    EventFileUtils.saveEventVideoUri(requireContext(), event.id.toString(), it)
                 }
             }
         }
@@ -197,9 +247,16 @@ class EventDetailPageFragment(
         pickImageLauncher.launch(intent)
     }
 
+    private fun replaceImageToVideo() {
+        val intent = Intent(MediaStore.ACTION_VIDEO_CAPTURE).apply {
+            putExtra(MediaStore.EXTRA_DURATION_LIMIT, 15) // max 15"
+            putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1) // low quality)
+        }
+        pickVideoLauncher.launch(intent)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 }
-

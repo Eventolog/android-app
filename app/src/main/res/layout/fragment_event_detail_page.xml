@@ -15,11 +15,19 @@
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:src="@drawable/default_event_deail_big_image"
         android:scaleType="centerCrop"
-        app:layout_constraintTop_toBottomOf="@+id/pageTopBar"/>
+        android:src="@drawable/default_event_deail_big_image"
+        app:layout_constraintTop_toBottomOf="@id/pageTopBar" />
 
-    <!-- Container for text items (Event Name, Description, Time, Duration) -->
+    <!-- VideoView que substitueix la imatge si es tria un vídeo -->
+    <VideoView
+        android:id="@+id/videoView"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/pageTopBar" />
+
+    <!-- Container for text items -->
     <LinearLayout
         android:id="@+id/textContainer"
         android:layout_width="0dp"
@@ -31,7 +39,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Event Name -->
         <TextView
             android:id="@+id/eventDetailName"
             android:layout_width="match_parent"
@@ -40,7 +47,6 @@
             android:paddingBottom="@dimen/padding_between_vertical_items"
             android:textStyle="bold" />
 
-        <!-- Event Description -->
         <TextView
             android:id="@+id/eventDetailDescription"
             android:layout_width="match_parent"
@@ -48,16 +54,13 @@
             android:textSize="@dimen/text_size_lg"
             android:paddingBottom="@dimen/padding_between_vertical_items"/>
 
-        <!-- Event Time and Duration-->
         <TextView
             android:id="@+id/eventDetailTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_size_lg"/>
-
     </LinearLayout>
 
-    <!-- Action Button aligned to end -->
     <Button
         android:id="@+id/actionButton"
         android:layout_width="match_parent"
