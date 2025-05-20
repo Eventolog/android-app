@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,24 +9,28 @@
         android:id="@+id/pageTopBar"
         />
 
-    <!-- ImageView at the top -->
-    <ImageView
-        android:id="@+id/imageView"
+    <!-- Contenidor per imatge o vídeo -->
+    <FrameLayout
+        android:id="@+id/mediaContainer"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/default_event_deail_big_image"
-        app:layout_constraintTop_toBottomOf="@id/pageTopBar" />
+        app:layout_constraintTop_toBottomOf="@id/pageTopBar">
 
-    <!-- VideoView que substitueix la imatge si es tria un vídeo -->
-    <VideoView
-        android:id="@+id/videoView"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/pageTopBar" />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/default_event_deail_big_image" />
 
-    <!-- Container for text items -->
+        <VideoView
+            android:id="@+id/videoView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+    </FrameLayout>
+
+    <!-- Texts -->
     <LinearLayout
         android:id="@+id/textContainer"
         android:layout_width="0dp"
@@ -35,7 +38,7 @@
         android:orientation="vertical"
         android:paddingHorizontal="@dimen/padding_horizontal_page"
         android:paddingVertical="@dimen/padding_vertical_page"
-        app:layout_constraintTop_toBottomOf="@id/imageView"
+        app:layout_constraintTop_toBottomOf="@id/mediaContainer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -61,6 +64,7 @@
             android:textSize="@dimen/text_size_lg"/>
     </LinearLayout>
 
+    <!-- Botó d'acció -->
     <Button
         android:id="@+id/actionButton"
         android:layout_width="match_parent"
