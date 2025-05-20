@@ -42,4 +42,5 @@
     <string name="seats_select">Selecciona las butacas</string>
     <string name="no_tickets_available">Entradas agotadas</string>
     <string name="option_take_video">Hacer un vídeo</string>
+    <string name="option_remove_video">Eliminar vídeo</string>
 </resources>

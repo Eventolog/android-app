@@ -126,7 +126,8 @@ class EventDetailPageFragment(
                     getString(R.string.option_take_picture),
                     getString(R.string.option_upload_image),
                     getString(R.string.option_take_video),
-                    getString(R.string.option_remove_image)
+                    getString(R.string.option_remove_image),
+                    getString(R.string.option_remove_video)
                 )
                 AlertDialog.Builder(requireContext())
                     .setTitle("Select Option")
@@ -136,6 +137,7 @@ class EventDetailPageFragment(
                             1 -> replaceImageFromGallery()
                             2 -> replaceImageToVideo()
                             3 -> replaceImageToDefault()
+                            4 -> replaceImageToDefaultVideo()
                         }
                     }
                     .show()
@@ -227,6 +229,19 @@ class EventDetailPageFragment(
 
         // delete the event image at the FileStorage
         EventFileUtils.deleteEventImage(requireContext(), event.id.toString())
+    }
+
+    private fun replaceImageToDefaultVideo() {
+        // Elimina el fitxer de vídeo si existeix
+        val deleted = EventFileUtils.deleteEventVideo(requireContext(), event.id.toString())
+
+        // Oculta el vídeo
+        videoView.visibility = View.GONE
+        videoView.stopPlayback()
+
+        // Mostra la imatge per defecte
+        binding.imageView.visibility = View.VISIBLE
+        replaceImageToDefault()
     }
 
     /**

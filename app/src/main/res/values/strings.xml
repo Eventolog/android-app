@@ -40,5 +40,6 @@
     <string name="confirm_reserve">Confirm Reserve</string>
     <string name="seats_select">Select the Seats</string>
     <string name="no_tickets_available">All tickets sold</string>
-    <string name="option_take_video">Make a Video</string>
+    <string name="option_take_video">Take a Video</string>
+    <string name="option_remove_video">Remove Video</string>
 </resources>

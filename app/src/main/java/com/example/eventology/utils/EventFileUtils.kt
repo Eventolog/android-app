@@ -43,6 +43,11 @@ object EventFileUtils {
         }
     }
 
+    fun deleteEventVideo(context: Context, eventId: String): Boolean {
+        val file = File(context.filesDir, "event_video_$eventId.mp4")
+        return if (file.exists()) file.delete() else false
+    }
+
     fun getBitmapFromUri(context: Context, uri: Uri): Bitmap {
         val inputStream = context.contentResolver.openInputStream(uri)
         return BitmapFactory.decodeStream(inputStream!!)

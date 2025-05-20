@@ -42,4 +42,5 @@
     <string name="seats_select">Selecciona els Seients</string>
     <string name="no_tickets_available">Entrades exhaurides</string>
     <string name="option_take_video">Fer un vídeo</string>
+    <string name="option_remove_video">Esborrar vídeo</string>
 </resources>
